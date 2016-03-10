@@ -1,0 +1,87 @@
+/**
+ *
+ *  Bootstrap Color 1 :         #6B15A1
+ *  Bootstrap Color Gradient :  #801CA1
+ *  Bootstrap Color Gradient :  #9623A1
+ *  Bootstrap Color 2 :         #AC2AA1
+ *
+ *
+ */
+
+a, a:hover, a:visited, a:focus {
+    color: inherit;
+    text-decoration: inherit;
+    outline: inherit;
+}
+
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 180px;
+    padding: 0;
+    margin: 0;
+}
+
+
+.resizer {
+    display: flex;
+    flex-direction: row;
+}
+.resizer a {
+    flex: 1;
+    cursor: pointer;
+    padding: 5px 0;
+
+    font-size: 1.4em;
+    text-align: center;
+    background: #FFFFFF;
+    border-bottom: 3px solid #6B15A1;
+    color: #6B15A1;
+}
+.resizer a:nth-of-type(4n+1) {
+    border-bottom-color: #6B15A1;
+    color: #6B15A1;
+}
+.resizer a:nth-of-type(4n+2) {
+    border-bottom-color: #801CA1;
+    color: #801CA1;
+}
+.resizer a:nth-of-type(4n+3) {
+    border-bottom-color: #9623A1;
+    color: #9623A1;
+}
+.resizer a:nth-of-type(4n) {
+    border-bottom-color: #AC2AA1;
+    color: #AC2AA1;
+}
+
+.resizer a.active:nth-of-type(4n+1) {
+    background: #6B15A1;
+}
+.resizer a.active:nth-of-type(4n+1) {
+    background: #801CA1;
+}
+.resizer a.active:nth-of-type(4n+1) {
+    background: #9623A1;
+}
+.resizer a.active:nth-of-type(4n+1) {
+    background: #AC2AA1;
+}
+
+
+.doc-links {
+    padding: 15px 30px 10px;
+}
+h2 {
+    text-align: left;
+    color: #6B15A1;
+    font-size: 1.5em;
+    font-weight: 400;
+    margin: 0;
+}
+h3 {
+    text-align: right;
+    color: #AC2AA1;
+    font-size: 1em;
+    font-weight: 300;
+    margin: 0;
+}
