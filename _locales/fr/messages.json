@@ -1,0 +1,14 @@
+{
+  "appName": {
+    "message": "Aide Bootstrap"
+  },
+  "appShortName": {
+    "message": "Bootstrap Aide"
+  },
+  "appDesc": {
+    "message": "Aide à savoir le breakpoint actuel de Bootstrap"
+  },
+  "extTitle": {
+    "message": "Plus d'infos sur Bootstrap ?"
+  }
+}
