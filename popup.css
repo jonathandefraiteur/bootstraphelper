@@ -54,16 +54,19 @@ body {
     color: #AC2AA1;
 }
 
+.resizer a.active {
+    color: #FFFFFF;
+}
 .resizer a.active:nth-of-type(4n+1) {
     background: #6B15A1;
 }
-.resizer a.active:nth-of-type(4n+1) {
+.resizer a.active:nth-of-type(4n+2) {
     background: #801CA1;
 }
-.resizer a.active:nth-of-type(4n+1) {
+.resizer a.active:nth-of-type(4n+3) {
     background: #9623A1;
 }
-.resizer a.active:nth-of-type(4n+1) {
+.resizer a.active:nth-of-type(4n) {
     background: #AC2AA1;
 }
 
