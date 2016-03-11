@@ -104,3 +104,26 @@ h3 {
     font-weight: 300;
     margin: 0;
 }
+
+
+.extras {
+    padding: 0px 30px 5px;
+    text-align: right;
+}
+a.rate-it {
+    color: #AAAAAA;
+    text-transform: capitalize;
+    font-weight: 300;
+}
+.rate-it .heart {
+    display: inline-block;
+    opacity: 0;
+    transform: scale(0);
+    transform-origin: top center;
+    transition: opacity 0.15s ease-out, transform 0.3s ease-out;
+}
+.rate-it:hover .heart {
+    opacity: 1;
+    transform: scale(1);
+    transform-origin: bottom right;
+}
