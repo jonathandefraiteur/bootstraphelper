@@ -4,7 +4,7 @@
     "description": "The title of the application, displayed in the web store."
   },
   "appShortName": {
-    "message": "Bootstrap Help",
+    "message": "Bootstrap Helper",
     "description": "The Concise title of the application."
   },
   "appDesc": {
@@ -12,7 +12,7 @@
     "description":"The description of the application, displayed in the web store."
   },
   "extTitle": {
-    "message": "More infos on Bootstrap ?",
+    "message": "Resize / Guide",
     "description":"Display when hover on the extention icon."
   }
 }

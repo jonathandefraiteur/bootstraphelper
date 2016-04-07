@@ -1,14 +1,14 @@
 {
   "appName": {
-    "message": "Aide Bootstrap"
+    "message": "Assistant Bootstrap"
   },
   "appShortName": {
-    "message": "Bootstrap Aide"
+    "message": "Assistant Bootstrap"
   },
   "appDesc": {
     "message": "Aide à savoir le breakpoint actuel de Bootstrap"
   },
   "extTitle": {
-    "message": "Plus d'infos sur Bootstrap ?"
+    "message": "Redimentionner / Guide"
   }
 }
