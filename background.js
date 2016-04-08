@@ -41,15 +41,56 @@ function updateBadge() {
 
 }
 
+function getLWCFromLocalStorage () {
+    var lastWindowsCreates = {
+        xs: null,
+        sm: null,
+        md: null,
+        lg: null
+    };
+
+    if (localStorage.bootstrapHelper_lwc_xs != undefined) {
+        lastWindowsCreates.xs = parseInt(localStorage.bootstrapHelper_lwc_xs);
+    }
+    if (localStorage.bootstrapHelper_lwc_sm != undefined) {
+        lastWindowsCreates.sm = parseInt(localStorage.bootstrapHelper_lwc_sm);
+    }
+    if (localStorage.bootstrapHelper_lwc_md != undefined) {
+        lastWindowsCreates.md = parseInt(localStorage.bootstrapHelper_lwc_md);
+    }
+    if (localStorage.bootstrapHelper_lwc_lg != undefined) {
+        lastWindowsCreates.lg = parseInt(localStorage.bootstrapHelper_lwc_lg);
+    }
+
+    return lastWindowsCreates;
+}
+
 chrome.runtime.onStartup.addListener(function(activeInfo) {
-    updateBadge();
+    //updateBadge();
 });
 chrome.runtime.onInstalled.addListener(function(activeInfo) {
-    updateBadge();
+    //updateBadge();
 });
 chrome.tabs.onActivated.addListener(function(activeInfo) {
-    updateBadge();
+    //updateBadge();
 });
 chrome.tabs.onMoved.addListener(function(activeInfo) {
-    updateBadge();
+    //updateBadge();
+});
+
+chrome.windows.onRemoved.addListener(function (windowId) {
+    var lwc = getLWCFromLocalStorage();
+
+    if (windowId == lwc.xs) {
+        localStorage.removeItem('bootstrapHelper_lwc_xs');
+    }
+    if (windowId == lwc.sm) {
+        localStorage.removeItem('bootstrapHelper_lwc_sm');
+    }
+    if (windowId == lwc.md) {
+        localStorage.removeItem('bootstrapHelper_lwc_md');
+    }
+    if (windowId == lwc.lg) {
+        localStorage.removeItem('bootstrapHelper_lwc_lg');
+    }
 });

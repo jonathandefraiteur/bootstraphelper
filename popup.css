@@ -121,6 +121,7 @@ a.rate-it {
     transform: scale(0);
     transform-origin: top center;
     transition: opacity 0.15s ease-out, transform 0.3s ease-out;
+    color: #9623A1;
 }
 .rate-it:hover .heart {
     opacity: 1;
