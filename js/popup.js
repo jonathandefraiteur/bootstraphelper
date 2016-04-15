@@ -18,6 +18,8 @@ var lastWindowsCreates = {
     lg: null
 };
 
+var currentBP = null;
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded...');
 
@@ -64,7 +66,7 @@ function duplicateWindowsInSizes () {
             var url = activeTab.url;
 
             // Get the current breakpoint
-            var currentBP = getWindowBreakpoint(window);
+            currentBP = getWindowBreakpoint(window);
 
             console.log(url, currentBP);
 
@@ -72,97 +74,41 @@ function duplicateWindowsInSizes () {
             // Create a new window to display new tab
 
             // LG
-            if (currentBP != 'lg') {
-                // If we have create windows before and it at a good size
-                if (lastWindowsCreates.lg != null) {
-                    // Get the window
-                    chrome.windows.get( lastWindowsCreates.lg, { populate: true }, function (getWindow) {
-                        // Check the width
-                        if (getWindow.width >= breakpoints.lg) {
-                            checkTabOrCreate(url, getWindow);
-                        } else {
-                            // Create new one
-                            createSizedWindowsTo(url, 'lg');
-                        }
-                    });
-                } else {
-                    // Create a new window
-                    createSizedWindowsTo(url, 'lg');
-                }
-            } else {
-                saveCreatedWindow(window, 'lg');
-            }
-
+            duplicateFor('lg', url);
             // MD
-            if (currentBP != 'md') {
-                // If we have create windows before and it at a good size
-                if (lastWindowsCreates.md != null) {
-                    // Get the window
-                    chrome.windows.get( lastWindowsCreates.md, { populate: true }, function (getWindow) {
-                        // Check the width
-                        if (getWindow.width >= breakpoints.md && getWindow.width < breakpoints.lg) {
-                            checkTabOrCreate(url, getWindow);
-                        } else {
-                            // Create new one
-                            createSizedWindowsTo(url, 'md');
-                        }
-                    });
-                } else {
-                    // Create a new window
-                    createSizedWindowsTo(url, 'md');
-                }
-            } else {
-                saveCreatedWindow(window, 'md');
-            }
-
+            duplicateFor('md', url);
             // SM
-            if (currentBP != 'sm') {
-                // If we have create windows before and it at a good size
-                if (lastWindowsCreates.sm != null) {
-                    // Get the window
-                    chrome.windows.get( lastWindowsCreates.sm, { populate: true }, function (getWindow) {
-                        // Check the width
-                        if (getWindow.width >= breakpoints.sm && getWindow.width < breakpoints.md) {
-                            checkTabOrCreate(url, getWindow);
-                        } else {
-                            // Create new one
-                            createSizedWindowsTo(url, 'sm');
-                        }
-                    });
-                } else {
-                    // Create a new window
-                    createSizedWindowsTo(url, 'sm');
-                }
-            } else {
-                saveCreatedWindow(window, 'sm');
-            }
-
+            duplicateFor('sm', url);
             // XS
-            if (currentBP != 'xs') {
-                // If we have create windows before and it at a good size
-                if (lastWindowsCreates.xs != null) {
-                    // Get the window
-                    chrome.windows.get( lastWindowsCreates.xs, { populate: true }, function (getWindow) {
-                        // Check the width
-                        if (getWindow.width >= breakpoints.xs && getWindow.width < breakpoints.sm) {
-                            checkTabOrCreate(url, getWindow);
-                        } else {
-                            // Create new one
-                            createSizedWindowsTo(url, 'xs');
-                        }
-                    });
-                } else {
-                    // Create a new window
-                    createSizedWindowsTo(url, 'xs');
-                }
-            } else {
-                saveCreatedWindow(window, 'xs');
-            }
+            duplicateFor('xs', url);
 
         } else {
             console.log('No tab active found');
         }
     });
+}
+
+function duplicateFor (breakpointType, url) {
+    if (currentBP != breakpointType) {
+        // If we have create windows before and it at a good size
+        if (lastWindowsCreates[breakpointType] != null) {
+            // Get the window
+            chrome.windows.get( lastWindowsCreates[breakpointType], { populate: true }, function (getWindow) {
+                // Check if exist yet and the width
+                if (getWindow != null && getWindow.width >= breakpoints[breakpointType]) {
+                    checkTabOrCreate(url, getWindow);
+                } else {
+                    // Create new one
+                    createSizedWindowsTo(url, breakpointType);
+                }
+            });
+        } else {
+            // Create a new window
+            createSizedWindowsTo(url, breakpointType);
+        }
+    } else {
+        saveCreatedWindow(window, breakpointType);
+    }
 }
 
 function createSizedWindowsTo (url, breakpointMode) {
