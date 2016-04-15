@@ -12,8 +12,8 @@
   "browser_action": {
     "default_title": "__MSG_extTitle__",
     "default_icon": {
-      "19": "icon-19.png",
-      "38": "icon-38.png"
+      "19": "icons/icon-19.png",
+      "38": "icons/icon-38.png"
     },
     "default_popup": "popup.html"
   },
@@ -25,6 +25,18 @@
   "background": {
     "scripts": ["js/background.js"]
   },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*","https://*/*"],
+      "css": ["css/content.css"],
+      "js": ["js/jquery.min.js", "js/content.js"],
+      "run_at": "document_end"
+    }
+  ],
 
-  "icons": { "16": "icon-16.png", "48": "icon-48.png", "128": "icon-128.png" }
+  "icons": {
+    "16": "icons/icon-16.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  }
 }

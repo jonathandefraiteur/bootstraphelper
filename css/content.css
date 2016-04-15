@@ -1,0 +1,63 @@
+#bh-simple-helper {
+    position: fixed;
+    z-index: 100000;
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+
+    background-color: transparent;
+    border-color: #FFF;
+    border-style: solid;
+    box-shadow: 0px 3px 3px rgba(0,0,0,0.15);
+    color: #FFF;
+    text-align: center;
+    font-weight: bold;
+    text-transform: lowercase;
+
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+#bh-simple-helper.active {
+    opacity: 1;
+}
+#bh-simple-helper.bh-tl {
+    top: 0; left: 0;
+    border-bottom-right-radius: 30px;
+    border-width: 0 3px 3px 0;
+}
+#bh-simple-helper.bh-tr {
+    top: 0; right: 0;
+    border-bottom-left-radius: 30px;
+    border-width: 0 0 3px 3px;
+}
+#bh-simple-helper.bh-bl {
+    bottom: 0; left: 0;
+    border-top-right-radius: 30px;
+    border-width: 3px 3px 0 0;
+}
+#bh-simple-helper.bh-br {
+    bottom: 0; right: 0;
+    border-top-left-radius: 30px;
+    border-width: 3px 0 0 3px;
+}
+
+#bh-simple-helper > div {
+    box-sizing: border-box;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+    font-size: 25px;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+}
+#bh-simple-helper > .visible-xs {
+    background-color: rgba(107, 21, 161, 0.6);
+}
+#bh-simple-helper > .visible-sm {
+    background-color: rgba(128, 28, 161, 0.6);
+}
+#bh-simple-helper > .visible-md {
+    background-color: rgba(150, 35, 161, 0.61);
+}
+#bh-simple-helper > .visible-lg {
+    background-color: rgba(172, 42, 161, 0.6);
+}
