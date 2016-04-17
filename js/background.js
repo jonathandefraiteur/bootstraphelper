@@ -67,9 +67,17 @@ function getLWCFromLocalStorage () {
 
 chrome.runtime.onStartup.addListener(function(activeInfo) {
     //updateBadge();
+    alert('Coucou');
+    console.log('Coucou');
 });
 chrome.runtime.onInstalled.addListener(function(activeInfo) {
     //updateBadge();
+});
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+    //updateBadge();
+    alert(message);
+    console.log(message, sender);
+    sendResponse('Response is cool !');
 });
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     //updateBadge();

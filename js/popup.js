@@ -17,6 +17,7 @@ var lastWindowsCreates = {
     md: null,
     lg: null
 };
+var scrollBarWidth = 0;
 
 var currentBP = null;
 
@@ -42,6 +43,15 @@ document.addEventListener('DOMContentLoaded', function() {
         duplicateWindowsInSizes();
     });
 });
+
+function initScrollBarWidth () {
+    chrome.runtime.getPlatformInfo(function(platformInfo){
+        // If it's Windows
+        if (platformInfo.os == chrome.runtime.PlatformOs.WIN) {
+            scrollBarWidth = 11;
+        }
+    })
+}
 
 function duplicateWindowsInSizes () {
     console.log('duplicateWindowsInSizes');
@@ -114,7 +124,7 @@ function duplicateFor (breakpointType, url) {
 function createSizedWindowsTo (url, breakpointMode) {
     chrome.windows.create({
         url: url,
-        width: resizeWidth[breakpointMode]+11,
+        width: resizeWidth[breakpointMode]+scrollBarWidth,
         focused: true
     }, function(newWindow) {
         // Save the new window
@@ -174,8 +184,8 @@ function changeWindowSize(size) {
 
     chrome.windows.getCurrent(function(window){
         console.log(window);
-        // TODO Actually use +11 to avoid scroll bar possibility, change it
-        chrome.windows.update(window.id, {"width":size + 11});
+
+        chrome.windows.update(window.id, {"width":size + scrollBarWidth});
 
         //updateBadge();
         updateButton();
@@ -209,16 +219,16 @@ function updateButton() {
 
         $('.resizer a').removeClass('active');
 
-        if (width-11 >= breakpoints.lg) {
+        if (width - scrollBarWidth >= breakpoints.lg) {
             $('.resizer a[data-size="lg"]').addClass('active');
         }
-        else if (width-11 >= breakpoints.md) {
+        else if (width - scrollBarWidth >= breakpoints.md) {
             $('.resizer a[data-size="md"]').addClass('active');
         }
-        else if (width-11 >= breakpoints.sm) {
+        else if (width - scrollBarWidth >= breakpoints.sm) {
             $('.resizer a[data-size="sm"]').addClass('active');
         }
-        else if (width-11 > breakpoints.xs) {
+        else if (width - scrollBarWidth > breakpoints.xs) {
             $('.resizer a[data-size="xs"]').addClass('active');
         }
     });
@@ -228,16 +238,16 @@ function getWindowBreakpoint(window) {
     var width = window.width;
     var bp = undefined;
 
-    if (width-11 > breakpoints.xs) {
+    if (width - scrollBarWidth > breakpoints.xs) {
         bp = 'xs';
     }
-    if (width-11 >= breakpoints.sm) {
+    if (width - scrollBarWidth >= breakpoints.sm) {
         bp = 'sm';
     }
-    if (width-11 >= breakpoints.md) {
+    if (width - scrollBarWidth >= breakpoints.md) {
         bp = 'md';
     }
-    if (width-11 >= breakpoints.lg) {
+    if (width - scrollBarWidth >= breakpoints.lg) {
         bp = 'lg';
     }
 
