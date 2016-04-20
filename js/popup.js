@@ -42,6 +42,9 @@ document.addEventListener('DOMContentLoaded', function() {
     $('#btn-duplicate').click(function(){
         duplicateWindowsInSizes();
     });
+    $('#btn-reload-duplicates').click(function(){
+        reloadTabsFromActive();
+    });
 });
 
 function initScrollBarWidth () {
@@ -105,7 +108,7 @@ function duplicateFor (breakpointType, url) {
             // Get the window
             chrome.windows.get( lastWindowsCreates[breakpointType], { populate: true }, function (getWindow) {
                 // Check if exist yet and the width
-                if (getWindow != null && getWindow.width >= breakpoints[breakpointType]) {
+                if (getWindow != null && getWindowBreakpoint(getWindow) == breakpointType) {
                     checkTabOrCreate(url, getWindow);
                 } else {
                     // Create new one
@@ -169,7 +172,10 @@ function checkTabOrCreate (url, window) {
     for (var j=0; j < window.tabs.length; j++) {
         if (window.tabs[j].url == url) {
             open = true;
-            chrome.tabs.highlight({tabs: window.tabs[j].id});
+            chrome.tabs.highlight({
+                windowId: window.id,
+                tabs: window.tabs[j].index
+            });
             break;
         }
     }
@@ -252,4 +258,43 @@ function getWindowBreakpoint(window) {
     }
 
     return bp;
+}
+
+function reloadTabsFromActive () {
+    console.log('reloadTabsFromActive');
+
+    // Get the current window
+    chrome.windows.getCurrent({populate:true}, function(window){
+        console.log(window);
+
+        // Get the active tab
+        var activeTab = null;
+        for (var i=0; i<window.tabs.length; i++) {
+            if (window.tabs[i].active == true) {
+                activeTab = window.tabs[i];
+                break;
+            }
+        }
+        // If we well get a tab
+        if (activeTab != null) {
+            reloadTabsForUrl(activeTab.url);
+        } else {
+            console.log('No tab active found');
+        }
+    });
+}
+
+function reloadTabsForUrl(url) {
+    chrome.tabs.query({}, function(tabs) {
+        // For all tabs get
+        for (var i=0; i < tabs.length; i++) {
+            var tab = tabs[i];
+            console.log(tab);
+            if (tab.url == url) {
+                chrome.tabs.reload(tab.id)
+            }
+        }
+    });
+
+    // chrome.tabs.reload(integer tabId, object reloadProperties, function callback)
 }
