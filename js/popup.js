@@ -228,19 +228,19 @@ function updateButton() {
         if (width - scrollBarWidth >= breakpoints.lg) {
             $('.resizer a[data-size="lg"]').addClass('active');
             // TODO If Bootstrap is used by current website
-            changeIconTo('lg', 'current');
+            //changeIconTo('lg', 'current');
         }
         else if (width - scrollBarWidth >= breakpoints.md) {
             $('.resizer a[data-size="md"]').addClass('active');
-            changeIconTo('md', 'current');
+            //changeIconTo('md', 'current');
         }
         else if (width - scrollBarWidth >= breakpoints.sm) {
             $('.resizer a[data-size="sm"]').addClass('active');
-            changeIconTo('sm', 'current');
+            //changeIconTo('sm', 'current');
         }
         else if (width - scrollBarWidth > breakpoints.xs) {
             $('.resizer a[data-size="xs"]').addClass('active');
-            changeIconTo('xs', 'current');
+            //changeIconTo('xs', 'current');
         }
     });
 }
