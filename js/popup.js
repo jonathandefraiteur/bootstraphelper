@@ -72,7 +72,7 @@ function duplicateWindowsInSizes () {
                 break;
             }
         }
-        // If we wel get a tab
+        // If we well get a tab
         if (activeTab != null) {
             console.log(activeTab);
             // Get url to duplicate
@@ -227,17 +227,56 @@ function updateButton() {
 
         if (width - scrollBarWidth >= breakpoints.lg) {
             $('.resizer a[data-size="lg"]').addClass('active');
+            // TODO If Bootstrap is used by current website
+            changeIconTo('lg', 'current');
         }
         else if (width - scrollBarWidth >= breakpoints.md) {
             $('.resizer a[data-size="md"]').addClass('active');
+            changeIconTo('md', 'current');
         }
         else if (width - scrollBarWidth >= breakpoints.sm) {
             $('.resizer a[data-size="sm"]').addClass('active');
+            changeIconTo('sm', 'current');
         }
         else if (width - scrollBarWidth > breakpoints.xs) {
             $('.resizer a[data-size="xs"]').addClass('active');
+            changeIconTo('xs', 'current');
         }
     });
+}
+
+function changeIconTo(breakpoint, tabId) {
+    var path = 'icons/icon-19.png';
+    // TODO Test if is strictly xs|sm|md|lg ?
+    if (breakpoint != undefined) {
+        path = 'icons/icon-19-'+ breakpoint +'.png';
+    }
+
+    if (tabId == undefined) {
+        chrome.browserAction.setIcon({path:path});
+    } else if (tabId == 'current') {
+        // Look for current tab
+        // Get the current window
+        chrome.windows.getCurrent({populate:true}, function(window){
+            // Get the active tab
+            var activeTab = null;
+            for (var i=0; i<window.tabs.length; i++) {
+                if (window.tabs[i].active == true) {
+                    activeTab = window.tabs[i];
+                    break;
+                }
+            }
+            // If we well get a tab
+            if (activeTab != null) {
+                chrome.browserAction.setIcon({path:path, tabId:activeTab.id});
+            } else {
+                console.log('No tab active found');
+            }
+        });
+    } else {
+        // give tabId
+        chrome.browserAction.setIcon({path:path, tabId:tabId});
+    }
 }
 
 function getWindowBreakpoint(window) {
