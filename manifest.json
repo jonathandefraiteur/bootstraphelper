@@ -23,7 +23,10 @@
     "alarms"
   ],
   "background": {
-    "scripts": ["js/background.js"]
+    "scripts": [
+      "js/bootstrap-helpers.js",
+      "js/background.js"
+    ]
   },
   "content_scripts": [
     {

@@ -1,15 +1,4 @@
-var breakpoints = {
-    'xs': 0,
-    'sm': 768,
-    'md': 992,
-    'lg': 1200
-};
-var resizeWidth = {
-    'xs': 536,
-    'sm': 768,
-    'md': 992,
-    'lg': 1200
-};
+
 
 function updateBadge() {
     // chrome.tabs.query({active: true}, function(queryInfo) {
@@ -41,43 +30,20 @@ function updateBadge() {
 
 }
 
-function getLWCFromLocalStorage () {
-    var lastWindowsCreates = {
-        xs: null,
-        sm: null,
-        md: null,
-        lg: null
-    };
-
-    if (localStorage.bootstrapHelper_lwc_xs != undefined) {
-        lastWindowsCreates.xs = parseInt(localStorage.bootstrapHelper_lwc_xs);
-    }
-    if (localStorage.bootstrapHelper_lwc_sm != undefined) {
-        lastWindowsCreates.sm = parseInt(localStorage.bootstrapHelper_lwc_sm);
-    }
-    if (localStorage.bootstrapHelper_lwc_md != undefined) {
-        lastWindowsCreates.md = parseInt(localStorage.bootstrapHelper_lwc_md);
-    }
-    if (localStorage.bootstrapHelper_lwc_lg != undefined) {
-        lastWindowsCreates.lg = parseInt(localStorage.bootstrapHelper_lwc_lg);
-    }
-
-    return lastWindowsCreates;
-}
 
 chrome.runtime.onStartup.addListener(function(activeInfo) {
-    //updateBadge();
-    //alert('Coucou');
-    //console.log('Coucou');
+    initLWCLocalStorage();
+    initScrollBarWidth();
 });
 chrome.runtime.onInstalled.addListener(function(activeInfo) {
     //updateBadge();
+    // TODO Open thank's page
 });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     //updateBadge();
-    //alert(message);
-    //console.log(message, sender);
-    //sendResponse('Response is cool !');
+    alert(message);
+    console.log(message, sender);
+    sendResponse('Response is cool !');
 });
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     //updateBadge();
@@ -87,18 +53,5 @@ chrome.tabs.onMoved.addListener(function(activeInfo) {
 });
 
 chrome.windows.onRemoved.addListener(function (windowId) {
-    var lwc = getLWCFromLocalStorage();
-
-    if (windowId == lwc.xs) {
-        localStorage.removeItem('bootstrapHelper_lwc_xs');
-    }
-    if (windowId == lwc.sm) {
-        localStorage.removeItem('bootstrapHelper_lwc_sm');
-    }
-    if (windowId == lwc.md) {
-        localStorage.removeItem('bootstrapHelper_lwc_md');
-    }
-    if (windowId == lwc.lg) {
-        localStorage.removeItem('bootstrapHelper_lwc_lg');
-    }
+    removeWindow(windowId);
 });
