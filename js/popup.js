@@ -9,21 +9,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $('.resizer a[data-size="xs"]').click(function(){
         changeWindowSize(resizeWidth.xs);
+        close();
     });
     $('.resizer a[data-size="sm"]').click(function(){
         changeWindowSize(resizeWidth.sm);
+        close();
     });
     $('.resizer a[data-size="md"]').click(function(){
         changeWindowSize(resizeWidth.md);
+        close();
     });
     $('.resizer a[data-size="lg"]').click(function(){
         changeWindowSize(resizeWidth.lg);
+        close();
     });
     $('#btn-duplicate').click(function(){
         duplicateWindowsInSizes();
+        close();
     });
     $('#btn-reload-duplicates').click(function(){
         reloadTabsFromActive();
+        close();
     });
 
     initScrollBarWidth();
