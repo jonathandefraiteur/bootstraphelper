@@ -20,7 +20,8 @@
   "permissions": [
     "activeTab",
     "tabs",
-    "alarms"
+    "alarms",
+    "storage"
   ],
   "background": {
     "scripts": [
@@ -36,6 +37,10 @@
       "run_at": "document_end"
     }
   ],
+  "options_ui": {
+    "chrome_style": true,
+    "page": "options.html"
+  },
 
   "icons": {
     "16": "icons/icon-16.png",

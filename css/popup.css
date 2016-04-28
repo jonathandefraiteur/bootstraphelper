@@ -14,6 +14,10 @@ a, a:hover, a:visited, a:focus {
     outline: inherit;
 }
 
+*:focus {
+    outline: none;
+}
+
 body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     width: 180px;
@@ -123,9 +127,9 @@ h3 {
 .extras {
     padding: 0px 30px 5px;
     text-align: right;
+    color: #AAAAAA;
 }
 a.rate-it, a.dev-tips {
-    color: #AAAAAA;
     text-transform: capitalize;
     font-weight: 300;
 }
@@ -141,4 +145,17 @@ a.rate-it, a.dev-tips {
     opacity: 1;
     transform: scale(1);
     transform-origin: bottom right;
+}
+#btn-options {
+    position: absolute;
+    bottom: 5px; left: 30px;
+    padding: 0;
+    border: none;
+    color: #CCCCCC;
+    background: transparent;
+    font-size: 25px;
+    line-height: 25px;
+}
+#btn-options:hover {
+    cursor: pointer;
 }

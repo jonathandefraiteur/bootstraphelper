@@ -4,7 +4,29 @@ var $sHelper = null;
 
 var currentBreakpoint = null;
 
+var helperPosition = 'tr';
+
 window.onload = function() {
+
+    // Get options
+    chrome.storage.sync.get({
+        bootstrapHelperIndicatorPosition: 'top-right',
+    }, function(items) {
+        var pos = items.bootstrapHelperIndicatorPosition;
+        if (pos == 'top-left') {
+            helperPosition = 'tl';
+        }
+        else if (pos == 'top-right') {
+            helperPosition = 'tr';
+        }
+        else if (pos == 'bottom-left') {
+            helperPosition = 'bl';
+        }
+        else if (pos == 'bottom-right') {
+            helperPosition = 'br';
+        }
+    });
+
 
     var request = {
         action: 'isBootstraped',
@@ -13,7 +35,10 @@ window.onload = function() {
 
     if (isBootstraped()) {
         //console.log('BootstrapHelper - Page use Bootstrap');
-        displaySimpleHelper();
+        // Wait to get Options
+        setTimeout(function(){
+            displaySimpleHelper();
+        }, 500);
 
         currentBreakpoint = getBreakpoint(window.innerWidth);
         console.log('currentBreakpoint', currentBreakpoint);
@@ -29,6 +54,7 @@ window.onload = function() {
     }*/
 
     //chrome.extension.sendRequest(request);
+
 };
 
 function isBootstraped() {
@@ -57,7 +83,7 @@ function displaySimpleHelper() {
 
 function buildSimpleHelper() {
     var $sHelper = $(
-        '<div id="bh-simple-helper" class="bh-tr active">' +
+        '<div id="bh-simple-helper" class="bh-'+ helperPosition +' active">' +
         '   <div class="visible-xs">XS</div>' +
         '   <div class="visible-sm">SM</div>' +
         '   <div class="visible-md">MD</div>' +

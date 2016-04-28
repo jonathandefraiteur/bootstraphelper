@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bootstrap Helper Options</title>
+    <style>
+        body { margin: 0; }
+        section, footer { padding: 20px; }
+        footer {
+            color: #555555;
+            background-color: #F0F0F0;
+            text-align: right;
+        }
+        footer p {
+            margin: 0;
+        }
+        footer .version {
+            font-size: 0.8em;
+        }
+        .heart {
+            color: #FF5555;
+        }
+    </style>
+</head>
+
+<body>
+    <section>
+        <div>
+
+            Breakpoint indicator position :
+            <select id="indicator-position">
+                <option value="top-left">Top / Left</option>
+                <option value="top-right">Top / Right</option>
+                <option value="bottom-left">Bottom / Left</option>
+                <option value="bottom-right">Bottom / Right</option>
+            </select>
+        </div>
+
+        <br>
+        <br>
+        <div>
+            <button id="save">Save</button>
+            <span id="status"></span>
+        </div>
+    </section>
+
+    <footer>
+        <p class="version">
+            Bootstrap Helper, version 0.9.0 (pre-release)
+        </p>
+        <p>
+            Happy to help you with my full of <span class="heart">♥</span> extension
+        </p>
+    </footer>
+
+    <script src="js/options.js"></script>
+</body>
+</html>
