@@ -41,9 +41,24 @@ chrome.runtime.onInstalled.addListener(function(activeInfo) {
 });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     //updateBadge();
-    alert(message);
     console.log(message, sender);
-    sendResponse('Response is cool !');
+});
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+    console.log(request, sender);
+
+    if (request.action != null) {
+        if (request.action == 'isBootstraped') {
+            changeIconTo(
+                (request.message)? getBreakpoint(sender.tab.width) : null,
+                sender.tab.id
+            );
+        }
+        else if (request.action == 'changeIcon') {
+            changeIconTo(request.message, sender.tab.id);
+        }
+    }
+
+    sendResponse('received');
 });
 chrome.tabs.onActivated.addListener(function(activeInfo) {
     //updateBadge();

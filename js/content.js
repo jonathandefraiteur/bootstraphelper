@@ -1,18 +1,31 @@
-window.onload = function() {
-
-    if (isBootstraped()) {
-        console.log('BootstrapHelper - Page use Bootstrap');
-        displaySimpleHelper();
-
-    } else {
-        console.log('BootstrapHelper - Page DON\'T use Bootstrap');
-    }
-
-};
-
 var timeout = null;
 var delayToHide = 3000;
 var $sHelper = null;
+
+var currentBreakpoint = null;
+
+window.onload = function() {
+
+    var request = {
+        action: 'isBootstraped',
+        message: false
+    };
+
+    if (isBootstraped()) {
+        //console.log('BootstrapHelper - Page use Bootstrap');
+        displaySimpleHelper();
+
+        currentBreakpoint = getBreakpoint(window.innerWidth);
+        console.log('currentBreakpoint', currentBreakpoint);
+
+        request.message = true;
+    }
+    /*else {
+        console.log('BootstrapHelper - Page DON\'T use Bootstrap');
+    }*/
+
+    chrome.extension.sendRequest(request);
+};
 
 function isBootstraped() {
     // If website use col-*-* classes, considere it use bootstrap
@@ -50,6 +63,16 @@ function buildSimpleHelper() {
 
     $(window).resize(function(){
         displaySimpleHelper();
+        var newBp = getBreakpoint(window.innerWidth);
+        if (currentBreakpoint != newBp) {
+            currentBreakpoint = newBp;
+            //console.log('currentBreakpoint', currentBreakpoint);
+            // TODO Tips but not clear, admit background manage this request by change icon
+            chrome.extension.sendRequest({
+                action: 'changeIcon',
+                message: currentBreakpoint
+            });
+        }
     });
 
     return $sHelper;

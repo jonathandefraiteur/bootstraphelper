@@ -43,11 +43,11 @@ function initScrollBarWidth () {
 }
 
 function getScrollBarWidth () {
-    return parseInt(localStorage.getItem('bootstrapHelper_sbw'));
+    var width = localStorage.getItem('bootstrapHelper_sbw');
+    return (width != null)? parseInt(width) : 0;
 }
 
-function getWindowBreakpoint(window) {
-    var width = window.width;
+function getBreakpoint(width) {
     var bp = undefined;
 
     for (var i=0; i<bootstrapBreakpointsNames.length; i++) {
@@ -58,6 +58,9 @@ function getWindowBreakpoint(window) {
     }
 
     return bp;
+}
+function getWindowBreakpoint(window) {
+    return getBreakpoint(window.width);
 }
 
 
@@ -179,4 +182,43 @@ function isUrlDuplicate (url) {
         }
     }
     return false;
+}
+
+
+
+/////      /////
+///// ICON /////
+/////      /////
+
+function changeIconTo(breakpoint, tabId) {
+    var path = 'icons/icon-19.png';
+    if (isValidBreakpoint(breakpoint)) {
+        path = 'icons/icon-19-'+ breakpoint +'.png';
+    }
+
+    if (tabId == undefined) {
+        chrome.browserAction.setIcon({path:path});
+    } else if (tabId == 'current') {
+        // Look for current tab
+        // Get the current window
+        chrome.windows.getCurrent({populate:true}, function(window){
+            // Get the active tab
+            var activeTab = null;
+            for (var i=0; i<window.tabs.length; i++) {
+                if (window.tabs[i].active == true) {
+                    activeTab = window.tabs[i];
+                    break;
+                }
+            }
+            // If we well get a tab
+            if (activeTab != null) {
+                chrome.browserAction.setIcon({path:path, tabId:activeTab.id});
+            } else {
+                console.log('No tab active found');
+            }
+        });
+    } else {
+        // give tabId
+        chrome.browserAction.setIcon({path:path, tabId:tabId});
+    }
 }
