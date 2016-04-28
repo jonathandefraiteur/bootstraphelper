@@ -6,7 +6,7 @@
   "description": "__MSG_appDesc__",
   "author": "Jonathan Defraiteur",
 
-  "version": "0.9.0",
+  "version": "0.9.1",
   "default_locale": "en",
 
   "browser_action": {
