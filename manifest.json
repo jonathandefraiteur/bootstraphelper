@@ -40,6 +40,7 @@
     "chrome_style": true,
     "page": "options.html"
   },
+  "offline_enabled": true,
 
   "icons": {
     "16": "icons/icon-16.png",
