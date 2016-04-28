@@ -1,5 +1,7 @@
-
 var currentBP = null;
+
+var closeTimeout = null;
+var delayToClose = 2000;
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded...');
@@ -9,31 +11,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $('.resizer a[data-size="xs"]').click(function(){
         changeWindowSize(resizeWidth.xs);
-        close();
+        closeDelay();
     });
     $('.resizer a[data-size="sm"]').click(function(){
         changeWindowSize(resizeWidth.sm);
-        close();
+        closeDelay();
     });
     $('.resizer a[data-size="md"]').click(function(){
         changeWindowSize(resizeWidth.md);
-        close();
+        closeDelay();
     });
     $('.resizer a[data-size="lg"]').click(function(){
         changeWindowSize(resizeWidth.lg);
-        close();
+        closeDelay();
     });
     $('#btn-duplicate').click(function(){
         duplicateWindowsInSizes();
-        close();
+        closeDelay();
     });
     $('#btn-reload-duplicates').click(function(){
         reloadTabsFromActive();
-        close();
+        closeDelay();
     });
 
     initScrollBarWidth();
 });
+
+
+function closeDelay() {
+    if (closeTimeout != null) {
+        clearTimeout(closeTimeout);
+    }
+    closeTimeout = setTimeout(function(){
+        close();
+    }, delayToClose);
+}
+
 
 function duplicateWindowsInSizes () {
     console.log('duplicateWindowsInSizes');
