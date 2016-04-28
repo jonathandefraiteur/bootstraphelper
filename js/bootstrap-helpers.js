@@ -26,9 +26,9 @@ var breakpoints = {
  */
 var resizeWidth = {
     xs: 536,
-    sm: 768,
-    md: 992,
-    lg: 1200
+    sm: 776,
+    md: 1000,
+    lg: 1208
 };
 
 function initScrollBarWidth () {

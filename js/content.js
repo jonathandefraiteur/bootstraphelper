@@ -17,6 +17,10 @@ window.onload = function() {
 
         currentBreakpoint = getBreakpoint(window.innerWidth);
         console.log('currentBreakpoint', currentBreakpoint);
+        chrome.extension.sendRequest({
+            action: 'changeIcon',
+            message: currentBreakpoint
+        });
 
         request.message = true;
     }
@@ -24,7 +28,7 @@ window.onload = function() {
         console.log('BootstrapHelper - Page DON\'T use Bootstrap');
     }*/
 
-    chrome.extension.sendRequest(request);
+    //chrome.extension.sendRequest(request);
 };
 
 function isBootstraped() {
