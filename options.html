@@ -18,22 +18,39 @@
             margin: 0;
         }
         footer .version {
-            font-size: 0.8em;
+            font-size: 0.7em;
+        }
+        footer .love {
+            font-size: 1.2em;
+        }
+        footer .invite {
+            font-size: 0.85em;
+        }
+        footer .invite a {
+            color: inherit;
+            text-decoration: underline;
         }
         footer .perso {
-            font-size: 0.85em;
+            font-size: 1em;
+            line-height: 0.8;
         }
         .heart {
             color: #FF5555;
+        }
+        .star {
+            color: #FFEE55;
         }
     </style>
 </head>
 
 <body>
+
     <section>
         <div>
 
-            Breakpoint indicator position :
+            <h3>
+                Breakpoint indicator position :
+            </h3>
             <select id="indicator-position">
                 <option value="top-left">Top / Left</option>
                 <option value="top-right">Top / Right</option>
@@ -49,17 +66,20 @@
             <span id="status"></span>
         </div>
     </section>
-
     <footer>
+        <p class="love">
+            Delighted to help you with my full of <span class="heart">♥</span> extension
+        </p>
+        <p class="perso">
+            Jonathan D.
+        </p>
+        <br/>
+        <p class="invite">
+            You can <a href="https://chrome.google.com/webstore/detail/bootstrap-helper/bnkadmnhdpkpbfmaehgjeijgopkjinbl/reviews">rate it</a> and see my <a href="https://chrome.google.com/webstore/search/jonathan%20defraiteur">other extensions</a>
+        </p>
         <p class="version">
             Bootstrap Helper, version 0.9.1 (pre-release)
         </p>
-        <p>
-            Delighted to help you with my full of <span class="heart">♥</span> extension
-        </p>
-        <!--p class="perso">
-            Jonathan D.
-        </p-->
     </footer>
 
     <script src="js/options.js"></script>
