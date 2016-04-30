@@ -20,7 +20,8 @@
     "activeTab",
     "tabs",
     "alarms",
-    "storage"
+    "storage",
+    "contextMenus"
   ],
   "background": {
     "scripts": [

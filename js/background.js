@@ -70,3 +70,24 @@ chrome.tabs.onMoved.addListener(function(activeInfo) {
 chrome.windows.onRemoved.addListener(function (windowId) {
     removeWindow(windowId);
 });
+
+// CONTEXT MENU //
+var contextPageActionId = [];
+contextPageActionId['doc'] = chrome.contextMenus.create({
+    "title": "📚 Doc Bootstrap",
+    "contexts":["browser_action"],
+    "onclick": function(){
+        chrome.tabs.create({url: "http://getbootstrap.com/css/", active: true});
+    }
+});
+contextPageActionId['rate'] = chrome.contextMenus.create({
+    "type": "separator",
+    "contexts":["browser_action"]
+});
+contextPageActionId['rate'] = chrome.contextMenus.create({
+    "title": "🌟 Rate It ",
+    "contexts":["browser_action"],
+    "onclick": function(){
+        chrome.tabs.create({url: "https://chrome.google.com/webstore/detail/bootstrap-helper/bnkadmnhdpkpbfmaehgjeijgopkjinbl/reviews", active: true});
+    }
+});
