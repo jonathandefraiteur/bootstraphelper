@@ -1,5 +1,71 @@
+body {
+    color: #555555;
+}
+
 header {
-    padding: 50px 0;
+    position: relative;
+    z-index: 1000;
+    padding: 30px 0;
     background-color: #6f5499;
+    background: linear-gradient(to right, #9623A1, #6B15A1);
     color: white;
+}
+header h1 {
+    font-size: 3em;
+    font-weight: 700;
+}
+header p {
+    font-size: 1.7em;
+}
+
+section.container {
+    box-shadow: 0 -30px 25px rgba(0,0,0,0.1);
+    padding-bottom: 50px;
+}
+
+.quickies p {
+    font-size: 1.2em;
+}
+.quickies img {
+    vertical-align: inherit;
+}
+.quickies .row {
+    margin-bottom: 10px;
+}
+
+footer { padding: 20px; }
+section {
+    text-align: center;
+}
+footer {
+    margin-top: 30px;
+    color: #bbb;
+    text-align: center;
+    padding-bottom: 50px;
+}
+footer p {
+    margin: 0;
+}
+footer .version {
+    font-size: 0.7em;
+}
+footer .love {
+    font-size: 1.2em;
+}
+footer .invite {
+    font-size: 0.85em;
+}
+footer .invite a {
+    color: inherit;
+    text-decoration: underline;
+}
+footer .perso {
+    font-size: 1em;
+    line-height: 0.8;
+}
+.heart {
+    color: #FF5555;
+}
+.star {
+    color: #FFEE55;
 }

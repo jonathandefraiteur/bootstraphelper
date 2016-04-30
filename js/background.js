@@ -38,6 +38,7 @@ chrome.runtime.onStartup.addListener(function(activeInfo) {
 chrome.runtime.onInstalled.addListener(function(activeInfo) {
     //updateBadge();
     // TODO Open thank's page
+    chrome.tabs.create({url: "chrome-extension://ifkjhcfcdnembfnajcdanpioceeapibb/thanks.html", active: true});
 });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     //updateBadge();
