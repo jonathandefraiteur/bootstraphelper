@@ -241,7 +241,9 @@ function updateButton() {
         // If we well get a tab
         if (activeTab != null) {
             if (isUrlDuplicate(activeTab.url)) {
-                $('#btn-duplicate img').attr('src', 'img/icon-reload-duplicates.svg');
+                $('#btn-duplicate img')
+                    .attr('src', 'img/icon-reload-duplicates.svg')
+                    .attr('title', 'Reloads all duplicated tabs');
             }
         }
     });
