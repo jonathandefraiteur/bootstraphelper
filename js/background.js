@@ -75,28 +75,28 @@ chrome.windows.onRemoved.addListener(function (windowId) {
 var contextPageActionId = [];
 // Documentation
 contextPageActionId['doc'] = chrome.contextMenus.create({
-    "title": "Doc • CSS",
+    "title": "Doc · CSS",
     "contexts":["browser_action"],
     "onclick": function(){
         chrome.tabs.create({url: "http://getbootstrap.com/css/", active: true});
     }
 });
 contextPageActionId['doc'] = chrome.contextMenus.create({
-    "title": "Doc • Components",
+    "title": "Doc · Components",
     "contexts":["browser_action"],
     "onclick": function(){
         chrome.tabs.create({url: "http://getbootstrap.com/components/", active: true});
     }
 });
 contextPageActionId['doc'] = chrome.contextMenus.create({
-    "title": "Doc • Javascript",
+    "title": "Doc · Javascript",
     "contexts":["browser_action"],
     "onclick": function(){
         chrome.tabs.create({url: "http://getbootstrap.com/javascript/", active: true});
     }
 });
 contextPageActionId['doc'] = chrome.contextMenus.create({
-    "title": "Doc • Customize",
+    "title": "Doc · Customize",
     "contexts":["browser_action"],
     "onclick": function(){
         chrome.tabs.create({url: "http://getbootstrap.com/customize/", active: true});
