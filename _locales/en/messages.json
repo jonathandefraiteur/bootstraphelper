@@ -1,6 +1,6 @@
 {
   "appName": {
-    "message": "Bootstrap Helper (Resize, Duplicates tab, Doc...)",
+    "message": "Bootstrap Helper (Resizes, Duplicates, Doc)",
     "description": "The title of the application, displayed in the web store."
   },
   "appShortName": {
@@ -8,7 +8,7 @@
     "description": "The Concise title of the application."
   },
   "appDesc": {
-    "message": "Help you to know the current Bootstrap breakpoint and if it's used on website. Allow you to quickly duplicate a tab in each size, and reload all in one click for easy testing. Give you links to the official documentation and some themes galleries.",
+    "message": "Show the current Bootstrap breakpoint. Allow to duplicate a tab in each size and reload all in one click. Give doc's links.",
     "description":"The description of the application, displayed in the web store."
   },
   "extTitle": {

@@ -1,12 +1,12 @@
 {
   "appName": {
-    "message": "Assistant Bootstrap (Redimention, Duplication d'onglet, Doc...)"
+    "message": "Assistant Bootstrap (Redimention,Duplique...)"
   },
   "appShortName": {
     "message": "Assistant Bootstrap"
   },
   "appDesc": {
-    "message": "Aide à savoir le breakpoint actuel de Bootstrap et si il est utilisé sur le site. Permet de dupliquer rapidement un onglet dans chaque taille, et de les recharger en un click pour simplifier les tests. Donne liens vers la documentation officielle et quelques galleries de thèmes."
+    "message": "Indique le breakpoint Bootstrap actuel. Duplique l'onglet dans chaque taille et recharge tout en un click. Liens vers la doc."
   },
   "extTitle": {
     "message": "Redimentionner / Guide"
