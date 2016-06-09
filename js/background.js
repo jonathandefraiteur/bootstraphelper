@@ -35,10 +35,21 @@ chrome.runtime.onStartup.addListener(function(activeInfo) {
     initLWCLocalStorage();
     initScrollBarWidth();
 });
+
+var manifest;
 chrome.runtime.onInstalled.addListener(function(activeInfo) {
     //updateBadge();
     // TODO Open thank's page
     // chrome.tabs.create({url: "/thanks.html", active: true});
+
+    var oReq = new XMLHttpRequest();
+    oReq.onload = function reqListener(e) {
+        manifest = JSON.parse(this.responseText);
+    };
+    oReq.open("get", "manifest.json", true);
+    oReq.send();
+
+
 });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     //updateBadge();
