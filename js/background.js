@@ -36,23 +36,17 @@ chrome.runtime.onStartup.addListener(function(activeInfo) {
     initScrollBarWidth();
 });
 
-var manifest;
-chrome.runtime.onInstalled.addListener(function(activeInfo) {
-    //updateBadge();
-    // TODO Open thank's page
-    // chrome.tabs.create({url: "/thanks.html", active: true});
-
-    var oReq = new XMLHttpRequest();
-    oReq.onload = function reqListener(e) {
-        manifest = JSON.parse(this.responseText);
-    };
-    oReq.open("get", "manifest.json", true);
-    oReq.send();
-
-
+chrome.runtime.onInstalled.addListener(function(details) {
+    
+    if (details.reason == "install") {
+        // Open thank's page
+        chrome.tabs.create({url: "/thanks.html", active: true});
+    } else if (details.reason == "update") {
+        // TODO Display "new", and link to updates...
+        console.log("Updated", details);
+    }
 });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
-    //updateBadge();
     console.log(message, sender);
 });
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
