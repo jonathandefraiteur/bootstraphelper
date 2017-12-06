@@ -21,6 +21,18 @@ var breakpoints = {
 };
 
 /**
+ * Breakpoints used by Bootstrap V4
+ * @type {{xs: number, sm: number, md: number, lg: number, xl: number}}
+ */
+var breakpointsV4 = {
+    xs: 0,
+    sm: 576,
+    md: 768,
+    lg: 992,
+    xl: 1200
+};
+
+/**
  * Size to use for each breakpoint
  * @type {{xs: number, sm: number, md: number, lg: number}}
  */
@@ -38,6 +50,7 @@ function initScrollBarWidth () {
         if (platformInfo.os == chrome.runtime.PlatformOs.WIN) {
             scrollBarWidth = 11;
         }
+        // TODO: here the fix for the linux user
         localStorage.setItem('bootstrapHelper_sbw', scrollBarWidth);
     })
 }
