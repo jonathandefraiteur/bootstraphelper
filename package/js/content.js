@@ -84,10 +84,11 @@ function displaySimpleHelper() {
 function buildSimpleHelper() {
     var $sHelper = $(
         '<div id="bh-simple-helper" class="bh-'+ helperPosition +' active">' +
-        '   <div class="visible-xs">XS</div>' +
-        '   <div class="visible-sm">SM</div>' +
-        '   <div class="visible-md">MD</div>' +
-        '   <div class="visible-lg">LG</div>' +
+        '   <div class="visible-xs  d-block d-sm-none">XS</div>' +
+        '   <div class="visible-sm  d-none d-sm-block d-md-none">SM</div>' +
+        '   <div class="visible-md  d-none d-md-block d-lg-none">MD</div>' +
+        '   <div class="visible-lg  d-none d-lg-block d-xl-none">LG</div>' +
+        '   <div class="visible-lg  d-none d-xl-block">XL</div>' +
         '</div>');
     $('body').append($sHelper);
 
