@@ -1,12 +1,12 @@
 {
   "appName": {
-    "message": "Asistente Bootstrap"
+    "message": "Asistente Bootstrap 3"
   },
   "appShortName": {
-    "message": "Asistente Bootstrap"
+    "message": "Asistente Bootstrap 3"
   },
   "appDesc": {
-    "message": "Help you to know the current Bootstrap breakpoint"
+    "message": "Help you to know the current Bootstrap 3 breakpoint"
   },
   "extTitle": {
     "message": "Resize / Gu\xADa"
