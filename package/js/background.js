@@ -1,36 +1,3 @@
-
-
-function updateBadge() {
-    // chrome.tabs.query({active: true}, function(queryInfo) {
-    chrome.windows.getCurrent(function(window){
-
-        //var width = queryInfo[0].width;
-        //console.log(queryInfo);
-
-        const width = window.width;
-        console.log(window);
-        let badgeText = "?";
-
-        if (width-11 > breakpoints.v3.xs) {
-            badgeText = " xs ";
-        }
-        if (width-11 >= breakpoints.v3.sm) {
-            badgeText = " sm ";
-        }
-        if (width-11 >= breakpoints.v3.md) {
-            badgeText = " md ";
-        }
-        if (width-11 >= breakpoints.v3.lg) {
-            badgeText = " lg ";
-        }
-
-        chrome.browserAction.setBadgeText({"text": badgeText});
-        chrome.browserAction.setBadgeBackgroundColor({"color":[111, 84, 153, 255]});
-    });
-
-}
-
-
 chrome.runtime.onStartup.addListener(function(activeInfo) {
     initLWCLocalStorage();
     initScrollBarWidth();
@@ -79,7 +46,7 @@ chrome.windows.onRemoved.addListener(function (windowId) {
 
 // CONTEXT MENU //
 let contextPageActionId = [];
-// Documentation
+// Documentation TODO: Add v4 Documentation
 contextPageActionId['doc'] = chrome.contextMenus.create({
     "title": "Doc · CSS",
     "contexts":["browser_action"],
