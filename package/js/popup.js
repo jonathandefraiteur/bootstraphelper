@@ -1,7 +1,7 @@
-var currentBP = null;
+let currentBP = null;
 
-var closeTimeout = null;
-var delayToClose = 2000;
+let closeTimeout = null;
+const delayToClose = 2000;
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM Content Loaded...');
@@ -65,9 +65,9 @@ function duplicateWindowsInSizes () {
         console.log(window);
 
         // Get the active tab
-        var activeTab = null;
-        for (var i=0; i<window.tabs.length; i++) {
-            if (window.tabs[i].active == true) {
+        let activeTab = null;
+        for (let i=0; i<window.tabs.length; i++) {
+            if (window.tabs[i].active === true) {
                 activeTab = window.tabs[i];
                 break;
             }
@@ -76,7 +76,7 @@ function duplicateWindowsInSizes () {
         if (activeTab != null) {
             console.log(activeTab);
             // Get url to duplicate
-            var url = activeTab.url;
+            const url = activeTab.url;
 
             // Get the current breakpoint
             currentBP = getWindowBreakpoint(window);
@@ -90,7 +90,7 @@ function duplicateWindowsInSizes () {
             // For each breakpoint, if is not the current
             // Create a new window to display new tab
 
-            for (var j=bootstrapBreakpointsNames.length-1; j>=0; j--) {
+            for (let j=bootstrapBreakpointsNames.length-1; j>=0; j--) {
                 duplicateFor(bootstrapBreakpointsNames[j], url);
             }
 
@@ -103,15 +103,15 @@ function duplicateWindowsInSizes () {
 }
 
 function duplicateFor (breakpointType, url) {
-    var lastWindowsCreated = getLastWindowsCreated();
+    const lastWindowsCreated = getLastWindowsCreated();
 
-    if (currentBP != breakpointType) {
+    if (currentBP !== breakpointType) {
         // If we have create windows before and it at a good size
         if (lastWindowsCreated[breakpointType] != null) {
             // Get the window
             chrome.windows.get( lastWindowsCreated[breakpointType], { populate: true }, function (getWindow) {
                 // Check if exist yet and the width
-                if (getWindow != null && getWindowBreakpoint(getWindow) == breakpointType) {
+                if (getWindow != null && getWindowBreakpoint(getWindow) === breakpointType) {
                     checkTabOrCreate(url, getWindow);
                 } else {
                     // Create new one
@@ -149,10 +149,10 @@ function closeDuplicata() {
 
 function checkTabOrCreate (url, window) {
     // Check if the url is not open
-    var open = false;
-    for (var j=0; j < window.tabs.length; j++) {
+    let open = false;
+    for (let j=0; j < window.tabs.length; j++) {
         // If already exist
-        if (window.tabs[j].url == url) {
+        if (window.tabs[j].url === url) {
             open = true;
             // Reload
             chrome.tabs.reload(window.tabs[j].id);
@@ -191,9 +191,9 @@ function updateBadge() {
         //var width = queryInfo[0].width;
         //console.log(queryInfo);
 
-        var bp = getWindowBreakpoint(window);
+        const bp = getWindowBreakpoint(window);
 
-        if (bp != undefined) {
+        if (bp !== undefined) {
             badgeText = " "+ bp + " ";
         } else {
             badgeText = "?";

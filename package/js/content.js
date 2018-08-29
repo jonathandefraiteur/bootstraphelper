@@ -1,10 +1,10 @@
-var timeout = null;
-var delayToHide = 3000;
-var $sHelper = null;
+let timeout = null;
+const delayToHide = 3000;
+let $sHelper = null;
 
-var currentBreakpoint = null;
+let currentBreakpoint = null;
 
-var helperPosition = 'tr';
+let helperPosition = 'tr';
 
 window.onload = function() {
 
@@ -12,23 +12,23 @@ window.onload = function() {
     chrome.storage.sync.get({
         bootstrapHelperIndicatorPosition: 'top-right',
     }, function(items) {
-        var pos = items.bootstrapHelperIndicatorPosition;
-        if (pos == 'top-left') {
+        const pos = items.bootstrapHelperIndicatorPosition;
+        if (pos === 'top-left') {
             helperPosition = 'tl';
         }
-        else if (pos == 'top-right') {
+        else if (pos === 'top-right') {
             helperPosition = 'tr';
         }
-        else if (pos == 'bottom-left') {
+        else if (pos === 'bottom-left') {
             helperPosition = 'bl';
         }
-        else if (pos == 'bottom-right') {
+        else if (pos === 'bottom-right') {
             helperPosition = 'br';
         }
     });
 
 
-    var request = {
+    let request = {
         action: 'isBootstraped',
         message: false
     };
@@ -59,11 +59,7 @@ window.onload = function() {
 
 function isBootstraped() {
     // If website use col-*-* classes, considere it use bootstrap
-    if ($('[class*="col-xs-"], [class*="col-sm-"], [class*="col-md-"], [class*="col-lg-"]').length > 0) {
-        return true;
-    } else {
-        false;
-    }
+    return $('[class*="col-xs-"], [class*="col-sm-"], [class*="col-md-"], [class*="col-lg-"]').length > 0;
 }
 
 function displaySimpleHelper() {
@@ -82,8 +78,8 @@ function displaySimpleHelper() {
 }
 
 function buildSimpleHelper() {
-    var $sHelper = $(
-        '<div id="bh-simple-helper" class="bh-'+ helperPosition +' active">' +
+    const $sHelper = $(
+        '<div id="bh-simple-helper" class="bh-' + helperPosition + ' active">' +
         '   <div class="visible-xs  d-block d-sm-none">XS</div>' +
         '   <div class="visible-sm  d-none d-sm-block d-md-none">SM</div>' +
         '   <div class="visible-md  d-none d-md-block d-lg-none">MD</div>' +
@@ -94,8 +90,8 @@ function buildSimpleHelper() {
 
     $(window).resize(function(){
         displaySimpleHelper();
-        var newBp = getBreakpoint(window.innerWidth);
-        if (currentBreakpoint != newBp) {
+        const newBp = getBreakpoint(window.innerWidth);
+        if (currentBreakpoint !== newBp) {
             currentBreakpoint = newBp;
             //console.log('currentBreakpoint', currentBreakpoint);
             // TODO Tips but not clear, admit background manage this request by change icon

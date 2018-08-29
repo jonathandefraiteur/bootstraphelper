@@ -7,9 +7,9 @@ function updateBadge() {
         //var width = queryInfo[0].width;
         //console.log(queryInfo);
 
-        var width = window.width;
+        const width = window.width;
         console.log(window);
-        var badgeText = "?";
+        let badgeText = "?";
 
         if (width-11 > breakpoints.v3.xs) {
             badgeText = " xs ";
@@ -38,10 +38,10 @@ chrome.runtime.onStartup.addListener(function(activeInfo) {
 
 chrome.runtime.onInstalled.addListener(function(details) {
     
-    if (details.reason == "install") {
+    if (details.reason === "install") {
         // Open thank's page
         chrome.tabs.create({url: "/thanks.html", active: true});
-    } else if (details.reason == "update") {
+    } else if (details.reason === "update") {
         // TODO Display "new", and link to updates...
         console.log("Updated", details);
     }
@@ -53,13 +53,13 @@ chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     console.log(request, sender);
 
     if (request.action != null) {
-        if (request.action == 'isBootstraped') {
+        if (request.action === 'isBootstraped') {
             changeIconTo(
                 (request.message)? getBreakpoint(sender.tab.width) : null,
                 sender.tab.id
             );
         }
-        else if (request.action == 'changeIcon') {
+        else if (request.action === 'changeIcon') {
             changeIconTo(request.message, sender.tab.id);
         }
     }
@@ -78,7 +78,7 @@ chrome.windows.onRemoved.addListener(function (windowId) {
 });
 
 // CONTEXT MENU //
-var contextPageActionId = [];
+let contextPageActionId = [];
 // Documentation
 contextPageActionId['doc'] = chrome.contextMenus.create({
     "title": "Doc · CSS",

@@ -1,4 +1,4 @@
-var bootstrapBreakpointsNames = ['xs','sm','md','lg','xl'];
+const bootstrapBreakpointsNames = ['xs', 'sm', 'md', 'lg', 'xl'];
 
 /**
  * Check if given name is well a bootstrap breakpoint name
@@ -40,11 +40,14 @@ const resizeWidth = {
     lg: 1208
 };
 
+/**
+ * Init the scroll-bar width in the local storage
+ */
 function initScrollBarWidth () {
     chrome.runtime.getPlatformInfo(function(platformInfo){
-        var scrollBarWidth = 0;
+        let scrollBarWidth = 0;
         // If it's Windows
-        if (platformInfo.os == chrome.runtime.PlatformOs.WIN) {
+        if (platformInfo.os === chrome.runtime.PlatformOs.WIN) {
             scrollBarWidth = 11;
         }
         // TODO: here the fix for the linux user
@@ -52,16 +55,24 @@ function initScrollBarWidth () {
     })
 }
 
+/**
+ * Get the scroll-bar width from the local storage
+ * @returns {number}
+ */
 function getScrollBarWidth () {
-    var width = localStorage.getItem('bootstrapHelper_sbw');
+    const width = localStorage.getItem('bootstrapHelper_sbw');
     return (width != null)? parseInt(width) : 0;
 }
 
+/**
+ * @param width
+ * @returns {string|undefined}
+ */
 function getBreakpoint(width) {
-    var bp = undefined;
+    let bp = undefined;
 
-    for (var i=0; i<bootstrapBreakpointsNames.length; i++) {
-        var bpn = bootstrapBreakpointsNames[i];
+    for (let i=0; i<bootstrapBreakpointsNames.length; i++) {
+        const bpn = bootstrapBreakpointsNames[i];
         if (width - getScrollBarWidth() >= breakpoints.v3[bpn]) {
             bp = bpn;
         }
@@ -70,6 +81,10 @@ function getBreakpoint(width) {
     return bp;
 }
 
+/**
+ * @param window
+ * @returns {string|undefined}
+ */
 function getWindowBreakpoint(window) {
     return getBreakpoint(window.width);
 }
@@ -118,11 +133,10 @@ function storeLWCInLocalStorage (lastWindowsCreated) {
  * @returns number|{{xs: null|number, sm: null|number, md: null|number, lg: null|number}}
  */
 function getLastWindowsCreated (breakpoint) {
+    const lwc = getLWCFromLocalStorage();
     if (isValidBreakpoint(breakpoint)) {
-        var lwc = getLWCFromLocalStorage();
         return lwc[breakpoint];
     } else {
-        var lwc = getLWCFromLocalStorage();
         return (lwc != null)? lwc : {};
     }
 }
@@ -133,7 +147,7 @@ function getLastWindowsCreated (breakpoint) {
  * @param breakpointMode
  */
 function saveCreatedWindow (window, breakpointMode) {
-    var lwc = getLastWindowsCreated();
+    const lwc = getLastWindowsCreated();
     lwc[breakpointMode] = window.id;
     storeLWCInLocalStorage(lwc);
 }
@@ -143,9 +157,9 @@ function saveCreatedWindow (window, breakpointMode) {
  * @param windowId
  */
 function removeWindow (windowId) {
-    var lwc = getLWCFromLocalStorage();
-    for (var i=0; i<bootstrapBreakpointsNames.length; i++) {
-        if (lwc[bootstrapBreakpointsNames[i]] == windowId) {
+    const lwc = getLWCFromLocalStorage();
+    for (let i=0; i<bootstrapBreakpointsNames.length; i++) {
+        if (lwc[bootstrapBreakpointsNames[i]] === windowId) {
             lwc[bootstrapBreakpointsNames[i]] = null;
         }
     }
@@ -165,12 +179,12 @@ function storeUDInLocalStorage (urlDuplicated) {
  * @param url
  */
 function addUrlDuplicate (url) {
-    var ud = [];
+    let ud = [];
     if (localStorage.getItem('bootstrapHelper_ud') != null) {
         ud = getUDFromLocalStorage();
     }
-    for (var i=0; i<ud.length; i++) {
-        if (ud[i] == url) {
+    for (let i=0; i<ud.length; i++) {
+        if (ud[i] === url) {
             return;
         }
     }
@@ -186,8 +200,8 @@ function addUrlDuplicate (url) {
 function isUrlDuplicate (url) {
     if (localStorage.getItem('bootstrapHelper_ud') != null) {
         ud = getUDFromLocalStorage();
-        for (var i=0; i<ud.length; i++) {
-            if (ud[i] == url) {
+        for (let i=0; i<ud.length; i++) {
+            if (ud[i] === url) {
                 return true;
             }
         }
@@ -202,21 +216,21 @@ function isUrlDuplicate (url) {
 /////      /////
 
 function changeIconTo(breakpoint, tabId) {
-    var path = 'icons/icon-19.png';
+    let path = 'icons/icon-19.png';
     if (isValidBreakpoint(breakpoint)) {
         path = 'icons/icon-19-'+ breakpoint +'.png';
     }
 
-    if (tabId == undefined) {
+    if (tabId === undefined) {
         chrome.browserAction.setIcon({path:path});
-    } else if (tabId == 'current') {
+    } else if (tabId === 'current') {
         // Look for current tab
         // Get the current window
         chrome.windows.getCurrent({populate:true}, function(window){
             // Get the active tab
-            var activeTab = null;
-            for (var i=0; i<window.tabs.length; i++) {
-                if (window.tabs[i].active == true) {
+            let activeTab = null;
+            for (let i=0; i<window.tabs.length; i++) {
+                if (window.tabs[i].active === true) {
                     activeTab = window.tabs[i];
                     break;
                 }
