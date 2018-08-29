@@ -9,6 +9,14 @@ function isValidBreakpoint (name) {
     return (bootstrapBreakpointsNames.indexOf(name) >= 0);
 }
 
+const breakpointBadgeColors = {
+    xs: [107, 21, 161, 255],
+    sm: [128, 28, 161, 255],
+    md: [150, 35, 161, 255],
+    lg: [172, 42, 161, 255],
+    xl: [172, 42, 161, 255]
+};
+
 /**
  * Breakpoints used by Bootstrap
  * @type {{v3: {xs: number, sm: number, md: number, lg: number}, v4: {xs: number, sm: number, md: number, lg: number, xl: number}}}
@@ -219,10 +227,16 @@ function changeIconTo(breakpoint, tabId) {
     let path = 'icons/icon-19.png';
     if (isValidBreakpoint(breakpoint)) {
         path = 'icons/icon-19-'+ breakpoint +'.png';
+    } else {
+        chrome.browserAction.setBadgeText({"text": null});
     }
 
     if (tabId === undefined) {
         chrome.browserAction.setIcon({path:path});
+        if (isValidBreakpoint(breakpoint)) {
+            chrome.browserAction.setBadgeText({text: ` ${breakpoint.toUpperCase()} `});
+            chrome.browserAction.setBadgeBackgroundColor({color: breakpointBadgeColors[breakpoint]});
+        }
     } else if (tabId === 'current') {
         // Look for current tab
         // Get the current window
@@ -237,13 +251,27 @@ function changeIconTo(breakpoint, tabId) {
             }
             // If we well get a tab
             if (activeTab != null) {
-                chrome.browserAction.setIcon({path:path, tabId:activeTab.id});
+                // Recall the function with a tab ID
+                changeIconTo(breakpoint, activeTab.id);
             } else {
                 console.log('No tab active found');
             }
         });
     } else {
-        // give tabId
-        chrome.browserAction.setIcon({path:path, tabId:tabId});
+        // Use tabId to update the icon
+        chrome.browserAction.setIcon({
+            path:path,
+            tabId:tabId
+        });
+        if (isValidBreakpoint(breakpoint)) {
+            chrome.browserAction.setBadgeText({
+                text: ` ${breakpoint.toUpperCase()} `,
+                tabId:tabId
+            });
+            chrome.browserAction.setBadgeBackgroundColor({
+                color: breakpointBadgeColors[breakpoint],
+                tabId:tabId
+            });
+        }
     }
 }
