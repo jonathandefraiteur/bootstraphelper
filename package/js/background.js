@@ -11,16 +11,16 @@ function updateBadge() {
         console.log(window);
         var badgeText = "?";
 
-        if (width-11 > breakpoints.xs) {
+        if (width-11 > breakpoints.v3.xs) {
             badgeText = " xs ";
         }
-        if (width-11 >= breakpoints.sm) {
+        if (width-11 >= breakpoints.v3.sm) {
             badgeText = " sm ";
         }
-        if (width-11 >= breakpoints.md) {
+        if (width-11 >= breakpoints.v3.md) {
             badgeText = " md ";
         }
-        if (width-11 >= breakpoints.lg) {
+        if (width-11 >= breakpoints.v3.lg) {
             badgeText = " lg ";
         }
 

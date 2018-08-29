@@ -1,4 +1,4 @@
-var bootstrapBreakpointsNames = ['xs','sm','md','lg'];
+var bootstrapBreakpointsNames = ['xs','sm','md','lg','xl'];
 
 /**
  * Check if given name is well a bootstrap breakpoint name
@@ -11,32 +11,29 @@ function isValidBreakpoint (name) {
 
 /**
  * Breakpoints used by Bootstrap
- * @type {{xs: number, sm: number, md: number, lg: number}}
+ * @type {{v3: {xs: number, sm: number, md: number, lg: number}, v4: {xs: number, sm: number, md: number, lg: number, xl: number}}}
  */
-var breakpoints = {
-    xs: 0,
-    sm: 768,
-    md: 992,
-    lg: 1200
-};
-
-/**
- * Breakpoints used by Bootstrap V4
- * @type {{xs: number, sm: number, md: number, lg: number, xl: number}}
- */
-var breakpointsV4 = {
-    xs: 0,
-    sm: 576,
-    md: 768,
-    lg: 992,
-    xl: 1200
+const breakpoints = {
+    v3: {
+        xs: 0,
+        sm: 768,
+        md: 992,
+        lg: 1200
+    },
+    v4: {
+        xs: 0,
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1200
+    }
 };
 
 /**
  * Size to use for each breakpoint
  * @type {{xs: number, sm: number, md: number, lg: number}}
  */
-var resizeWidth = {
+const resizeWidth = {
     xs: 536,
     sm: 776,
     md: 1000,
@@ -65,13 +62,14 @@ function getBreakpoint(width) {
 
     for (var i=0; i<bootstrapBreakpointsNames.length; i++) {
         var bpn = bootstrapBreakpointsNames[i];
-        if (width - getScrollBarWidth() >= breakpoints[bpn]) {
+        if (width - getScrollBarWidth() >= breakpoints.v3[bpn]) {
             bp = bpn;
         }
     }
 
     return bp;
 }
+
 function getWindowBreakpoint(window) {
     return getBreakpoint(window.width);
 }
