@@ -3,6 +3,7 @@ const delayToHide = 3000;
 let $sHelper = null;
 
 let currentBreakpoint = null;
+let bootstrapVersion = null;
 
 let helperPosition = 'tr';
 
@@ -33,33 +34,68 @@ window.onload = function() {
         message: false
     };
 
-    if (isBootstraped()) {
+    bootstrapVersion = checkBootstrapVersion();
+    if (bootstrapVersion != null) {
         //console.log('BootstrapHelper - Page use Bootstrap');
         // Wait to get Options
         setTimeout(function(){
             displaySimpleHelper();
         }, 500);
 
-        currentBreakpoint = getBreakpoint(window.innerWidth);
-        console.log('currentBreakpoint', currentBreakpoint);
+        currentBreakpoint = getBreakpoint(bootstrapVersion, window.innerWidth);
+        // TODO: sendRequest() is deprecated
         chrome.extension.sendRequest({
             action: 'changeIcon',
             message: currentBreakpoint
         });
+        chrome.runtime.sendMessage({
+            action: 'UpdateBreakpoint',
+            message: {
+                isBootstraped: true,
+                version: bootstrapVersion,
+                breakpoint: currentBreakpoint
+            }
+        });
 
         request.message = true;
     }
-    /*else {
-        console.log('BootstrapHelper - Page DON\'T use Bootstrap');
-    }*/
 
     //chrome.extension.sendRequest(request);
 
 };
 
+/**
+ * @returns {boolean}
+ */
 function isBootstraped() {
-    // If website use col-*-* classes, considere it use bootstrap
-    return $('[class*="col-xs-"], [class*="col-sm-"], [class*="col-md-"], [class*="col-lg-"]').length > 0;
+    return checkBootstrapVersion() != null;
+}
+
+/**
+ * @see https://www.quackit.com/bootstrap/bootstrap_4/differences_between_bootstrap_3_and_bootstrap_4.cfm
+ *
+ * @returns {number|null}
+ */
+function checkBootstrapVersion() {
+    let version = null;
+
+    // Version 3.x
+    if ($(`
+            [class*="col-xs-"], [class*="col-sm-"], [class*="col-md-"], [class*="col-lg-"],
+            [class*="col-xs-offset-"], [class*="col-sm-offset-"], [class*="col-md-offset-"], [class*="col-lg-offset-"]
+        `).length > 0) {
+        version = 3;
+    }
+    // Version 4.x
+    if ($(`
+            [class*="col-xl-"],
+            [class*="offset-xs-"], [class*="offset-sm-"], [class*="offset-md-"], [class*="offset-lg-"], [class*="offset-xl-"],
+            [class*="form-control-sm"], [class*="form-control-lg"]
+        `).length > 0) {
+        version = 4;
+    }
+
+    return version;
 }
 
 function displaySimpleHelper() {
@@ -90,7 +126,7 @@ function buildSimpleHelper() {
 
     $(window).resize(function(){
         displaySimpleHelper();
-        const newBp = getBreakpoint(window.innerWidth);
+        const newBp = getBreakpoint(bootstrapVersion, window.innerWidth);
         if (currentBreakpoint !== newBp) {
             currentBreakpoint = newBp;
             //console.log('currentBreakpoint', currentBreakpoint);

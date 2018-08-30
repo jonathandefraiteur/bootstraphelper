@@ -211,20 +211,20 @@ function updateButton() {
 
         $('.resizer a').removeClass('active');
 
-        if (width - getScrollBarWidth() >= breakpoints.v3.lg) {
+        if (width - getScrollBarWidth() >= breakpoints[3].lg) {
             $('.resizer a[data-size="lg"]').addClass('active');
             // TODO If Bootstrap is used by current website
             //changeIconTo('lg', 'current');
         }
-        else if (width - getScrollBarWidth() >= breakpoints.v3.md) {
+        else if (width - getScrollBarWidth() >= breakpoints[3].md) {
             $('.resizer a[data-size="md"]').addClass('active');
             //changeIconTo('md', 'current');
         }
-        else if (width - getScrollBarWidth() >= breakpoints.v3.sm) {
+        else if (width - getScrollBarWidth() >= breakpoints[3].sm) {
             $('.resizer a[data-size="sm"]').addClass('active');
             //changeIconTo('sm', 'current');
         }
-        else if (width - getScrollBarWidth() > breakpoints.v3.xs) {
+        else if (width - getScrollBarWidth() > breakpoints[3].xs) {
             $('.resizer a[data-size="xs"]').addClass('active');
             //changeIconTo('xs', 'current');
         }

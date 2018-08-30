@@ -19,16 +19,16 @@ const breakpointBadgeColors = {
 
 /**
  * Breakpoints used by Bootstrap
- * @type {{v3: {xs: number, sm: number, md: number, lg: number}, v4: {xs: number, sm: number, md: number, lg: number, xl: number}}}
+ * @type {{3: {xs: number, sm: number, md: number, lg: number}, 4: {xs: number, sm: number, md: number, lg: number, xl: number}}}
  */
 const breakpoints = {
-    v3: {
+    3: {
         xs: 0,
         sm: 768,
         md: 992,
         lg: 1200
     },
-    v4: {
+    4: {
         xs: 0,
         sm: 576,
         md: 768,
@@ -73,15 +73,16 @@ function getScrollBarWidth () {
 }
 
 /**
- * @param width
+ * @param {number} version
+ * @param {number} width
  * @returns {string|undefined}
  */
-function getBreakpoint(width) {
+function getBreakpoint(version, width) {
     let bp = undefined;
 
     for (let i=0; i<bootstrapBreakpointsNames.length; i++) {
         const bpn = bootstrapBreakpointsNames[i];
-        if (width - getScrollBarWidth() >= breakpoints.v3[bpn]) {
+        if (width - getScrollBarWidth() >= breakpoints[version][bpn]) {
             bp = bpn;
         }
     }
@@ -93,8 +94,8 @@ function getBreakpoint(width) {
  * @param window
  * @returns {string|undefined}
  */
-function getWindowBreakpoint(window) {
-    return getBreakpoint(window.width);
+function getWindowBreakpoint(version, window) {
+    return getBreakpoint(version, window.width);
 }
 
 
@@ -107,12 +108,12 @@ function getWindowBreakpoint(window) {
  * Init the local storage data
  */
 function initLWCLocalStorage () {
-    var lwc = {};
+    let lwc = {};
     if (localStorage.getItem('bootstrapHelper_lwc') != null) {
         lwc = getLWCFromLocalStorage();
     }
-    for (var i=0; i<bootstrapBreakpointsNames.length; i++) {
-        if (lwc[bootstrapBreakpointsNames[i]] == undefined) {
+    for (let i=0; i<bootstrapBreakpointsNames.length; i++) {
+        if (lwc[bootstrapBreakpointsNames[i]] === undefined) {
             lwc[bootstrapBreakpointsNames[i]] = null;
         }
     }
