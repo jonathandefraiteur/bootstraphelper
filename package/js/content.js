@@ -5,7 +5,7 @@ let $sHelper = null;
 let currentBreakpoint = null;
 let bootstrapVersion = null;
 
-let helperPosition = 'tr';
+let helperPosition = 'top-right';
 
 window.onload = function() {
 
@@ -13,19 +13,7 @@ window.onload = function() {
     chrome.storage.sync.get({
         bootstrapHelperIndicatorPosition: 'top-right',
     }, function(items) {
-        const pos = items.bootstrapHelperIndicatorPosition;
-        if (pos === 'top-left') {
-            helperPosition = 'tl';
-        }
-        else if (pos === 'top-right') {
-            helperPosition = 'tr';
-        }
-        else if (pos === 'bottom-left') {
-            helperPosition = 'bl';
-        }
-        else if (pos === 'bottom-right') {
-            helperPosition = 'br';
-        }
+        helperPosition = items.bootstrapHelperIndicatorPosition;
     });
 
 
