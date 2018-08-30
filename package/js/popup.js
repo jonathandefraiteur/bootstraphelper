@@ -4,25 +4,11 @@ let closeTimeout = null;
 const delayToClose = 2000;
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded...');
-
-    //updateBadge();
     updateButton();
 
-    $('.resizer a[data-size="xs"]').click(function(){
-        changeWindowSize(resizeWidth.xs);
-        closeDelay();
-    });
-    $('.resizer a[data-size="sm"]').click(function(){
-        changeWindowSize(resizeWidth.sm);
-        closeDelay();
-    });
-    $('.resizer a[data-size="md"]').click(function(){
-        changeWindowSize(resizeWidth.md);
-        closeDelay();
-    });
-    $('.resizer a[data-size="lg"]').click(function(){
-        changeWindowSize(resizeWidth.lg);
+    $('.resizer a').click(function(){
+        const breakpoint = $(this).attr('data-size');
+        changeWindowSize(resizeWidth[breakpoint]);
         closeDelay();
     });
     $('#btn-duplicate').click(function(){

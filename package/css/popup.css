@@ -45,6 +45,12 @@ body {
     border-right: 1px solid;
     border-top: 1px solid;
 }
+.resizer.v3 .v3-hide {
+    display: none;
+}
+.resizer.v4 .v4-hide {
+    display: none;
+}
 .resizer a:first-of-type {
     border-left: 1px solid;
 }
