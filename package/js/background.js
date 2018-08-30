@@ -15,6 +15,14 @@ chrome.runtime.onInstalled.addListener(function(details) {
 });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     console.log(message, sender);
+
+    if (message.action != null) {
+        if (message.action === 'updateBreakpoint') {
+            changeIconTo(message.params.version, message.params.breakpoint, sender.tab.id);
+        }
+    }
+
+    sendResponse('received');
 });
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     console.log(request, sender);

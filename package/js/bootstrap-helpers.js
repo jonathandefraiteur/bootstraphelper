@@ -91,6 +91,7 @@ function getBreakpoint(version, width) {
 }
 
 /**
+ * @param {number} version
  * @param window
  * @returns {string|undefined}
  */
@@ -224,10 +225,16 @@ function isUrlDuplicate (url) {
 ///// ICON /////
 /////      /////
 
-function changeIconTo(breakpoint, tabId) {
+/**
+ *
+ * @param {number?} version
+ * @param {string?} breakpoint
+ * @param {number?} tabId
+ */
+function changeIconTo(version, breakpoint, tabId) {
     let path = 'icons/icon-19.png';
-    if (isValidBreakpoint(breakpoint)) {
-        path = 'icons/icon-19-'+ breakpoint +'.png';
+    if (version) {
+        path = `icons/icon-19-v${version}.png`;
     } else {
         chrome.browserAction.setBadgeText({"text": null});
     }

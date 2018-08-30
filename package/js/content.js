@@ -43,19 +43,7 @@ window.onload = function() {
         }, 500);
 
         currentBreakpoint = getBreakpoint(bootstrapVersion, window.innerWidth);
-        // TODO: sendRequest() is deprecated
-        chrome.extension.sendRequest({
-            action: 'changeIcon',
-            message: currentBreakpoint
-        });
-        chrome.runtime.sendMessage({
-            action: 'UpdateBreakpoint',
-            message: {
-                isBootstraped: true,
-                version: bootstrapVersion,
-                breakpoint: currentBreakpoint
-            }
-        });
+        sendUpdateBreakpoint();
 
         request.message = true;
     }
@@ -129,14 +117,20 @@ function buildSimpleHelper() {
         const newBp = getBreakpoint(bootstrapVersion, window.innerWidth);
         if (currentBreakpoint !== newBp) {
             currentBreakpoint = newBp;
-            //console.log('currentBreakpoint', currentBreakpoint);
-            // TODO Tips but not clear, admit background manage this request by change icon
-            chrome.extension.sendRequest({
-                action: 'changeIcon',
-                message: currentBreakpoint
-            });
+            sendUpdateBreakpoint();
         }
     });
 
     return $sHelper;
+}
+
+function sendUpdateBreakpoint() {
+    chrome.runtime.sendMessage({
+        action: 'updateBreakpoint',
+        params: {
+            isBootstraped: bootstrapVersion != null,
+            version: bootstrapVersion,
+            breakpoint: currentBreakpoint
+        }
+    });
 }
