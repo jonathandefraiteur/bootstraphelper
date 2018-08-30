@@ -8,36 +8,23 @@ let bootstrapVersion = null;
 let helperPosition = 'top-right';
 
 window.onload = function() {
-
     // Get options
-    chrome.storage.sync.get({
-        bootstrapHelperIndicatorPosition: 'top-right',
-    }, function(items) {
-        helperPosition = items.bootstrapHelperIndicatorPosition;
-    });
-
-
-    let request = {
-        action: 'isBootstraped',
-        message: false
-    };
+    chrome.storage.sync.get(
+        { bootstrapHelperIndicatorPosition: 'top-right' },
+        (items) => helperPosition = items.bootstrapHelperIndicatorPosition
+    );
 
     bootstrapVersion = checkBootstrapVersion();
     if (bootstrapVersion != null) {
-        //console.log('BootstrapHelper - Page use Bootstrap');
-        // Wait to get Options
-        setTimeout(function(){
-            displaySimpleHelper();
-        }, 500);
-
+        // Get the local breakpoint
         currentBreakpoint = getBreakpoint(bootstrapVersion, window.innerWidth);
         sendUpdateBreakpoint();
-
-        request.message = true;
+        // Wait to get Options, and display the helper
+        setTimeout(
+            () => displaySimpleHelper(),
+            500
+        );
     }
-
-    //chrome.extension.sendRequest(request);
-
 };
 
 /**
@@ -48,6 +35,7 @@ function isBootstraped() {
 }
 
 /**
+ * TODO: use more references to make the test stronger
  * @see https://www.quackit.com/bootstrap/bootstrap_4/differences_between_bootstrap_3_and_bootstrap_4.cfm
  *
  * @returns {number|null}
@@ -84,23 +72,25 @@ function displaySimpleHelper() {
     if (timeout != null) {
         clearTimeout(timeout);
     }
-    timeout = setTimeout(function(){
-        $('#bh-simple-helper').removeClass('active');
-    }, delayToHide);
+    timeout = setTimeout(
+        () => $('#bh-simple-helper').removeClass('active'),
+        delayToHide
+    );
 }
 
 function buildSimpleHelper() {
-    const $sHelper = $(
-        '<div id="bh-simple-helper" class="bh-' + helperPosition + ' active">' +
-        '   <div class="visible-xs  d-block d-sm-none">XS</div>' +
-        '   <div class="visible-sm  d-none d-sm-block d-md-none">SM</div>' +
-        '   <div class="visible-md  d-none d-md-block d-lg-none">MD</div>' +
-        '   <div class="visible-lg  d-none d-lg-block d-xl-none">LG</div>' +
-        '   <div class="visible-lg  d-none d-xl-block">XL</div>' +
-        '</div>');
+    const $sHelper = $(`
+        <div id="bh-simple-helper" class="bh-${helperPosition} active">
+           <div class="visible-xs  d-block d-sm-none">XS</div>
+           <div class="visible-sm  d-none d-sm-block d-md-none">SM</div>
+           <div class="visible-md  d-none d-md-block d-lg-none">MD</div>
+           <div class="visible-lg  d-none d-lg-block d-xl-none">LG</div>
+           <div class="visible-lg  d-none d-xl-block">XL</div>
+        </div>
+    `);
     $('body').append($sHelper);
 
-    $(window).resize(function(){
+    $(window).resize(() => {
         displaySimpleHelper();
         const newBp = getBreakpoint(bootstrapVersion, window.innerWidth);
         if (currentBreakpoint !== newBp) {
