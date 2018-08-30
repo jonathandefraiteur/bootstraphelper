@@ -1,18 +1,18 @@
 {
   "appName": {
-    "message": "Bootstrap 3 Helper (Resizes, Duplicates, Doc)",
+    "message": "Bootstrap Helper (Resizes, Duplicates, Doc)",
     "description": "The title of the application, displayed in the web store."
   },
   "appShortName": {
-    "message": "Bootstrap 3 Helper",
+    "message": "Bootstrap Helper",
     "description": "The Concise title of the application."
   },
   "appDesc": {
-    "message": "Show the current Bootstrap 3 breakpoint. Allow to duplicate a tab in each size and reload all in one click. Give doc's links.",
+    "message": "Show the current Bootstrap breakpoint. Allow to duplicate a tab in each size and reload all in one click. Give doc's links.",
     "description":"The description of the application, displayed in the web store."
   },
   "extTitle": {
-    "message": "Resize / Guide",
+    "message": "Resize / Guide - Bootstrap Helper",
     "description":"Display when hover on the extention icon."
   }
 }
