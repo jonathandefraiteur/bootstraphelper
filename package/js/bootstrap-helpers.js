@@ -1,4 +1,4 @@
-const bootstrapBreakpointsNames = ['xs', 'sm', 'md', 'lg', 'xl'];
+const bootstrapBreakpointsNames = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
 
 /**
  * Check if given name is well a bootstrap breakpoint name
@@ -14,12 +14,13 @@ const breakpointBadgeColors = {
     sm: [128, 28, 161, 255],
     md: [150, 35, 161, 255],
     lg: [172, 42, 161, 255],
-    xl: [172, 42, 161, 255]
+    xl: [172, 42, 161, 255],
+    xxl: [172, 42, 161, 255]
 };
 
 /**
  * Breakpoints used by Bootstrap
- * @type {{3: {xs: number, sm: number, md: number, lg: number}, 4: {xs: number, sm: number, md: number, lg: number, xl: number}}}
+ * @type {{3: {xs: number, sm: number, md: number, lg: number}, 4: {xs: number, sm: number, md: number, lg: number, xl: number}, 5: {xs: number, sm: number, md: number, lg: number, xxl: number}}}
  */
 const breakpoints = {
     3: {
@@ -34,6 +35,14 @@ const breakpoints = {
         md: 768,
         lg: 992,
         xl: 1200
+    },
+    5: {
+        xs: 0,
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1200,
+        xxl: 1400
     }
 };
 

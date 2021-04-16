@@ -15,16 +15,14 @@ window.onload = function() {
     );
 
     bootstrapVersion = checkBootstrapVersion();
-    if (bootstrapVersion != null) {
-        // Get the local breakpoint
-        currentBreakpoint = getBreakpoint(bootstrapVersion, window.innerWidth);
-        sendUpdateBreakpoint();
-        // Wait to get Options, and display the helper
-        setTimeout(
-            () => displaySimpleHelper(),
-            500
-        );
-    }
+    if (bootstrapVersion == null)
+        return;
+
+    // Get the local breakpoint
+    currentBreakpoint = getBreakpoint(bootstrapVersion, window.innerWidth);
+    sendUpdateBreakpoint();
+    // Wait to get Options, and display the helper
+    setTimeout(displaySimpleHelper, 500);
 };
 
 /**
@@ -81,11 +79,12 @@ function displaySimpleHelper() {
 function buildSimpleHelper() {
     const $sHelper = $(`
         <div id="bh-simple-helper" class="bh-${helperPosition} active">
-           <div class="visible-xs  d-block d-sm-none">XS</div>
-           <div class="visible-sm  d-none d-sm-block d-md-none">SM</div>
-           <div class="visible-md  d-none d-md-block d-lg-none">MD</div>
-           <div class="visible-lg  d-none d-lg-block d-xl-none">LG</div>
-           <div class="visible-lg  d-none d-xl-block">XL</div>
+           <div class="visible-xs d-block d-sm-none">XS</div>
+           <div class="visible-sm d-none d-sm-block d-md-none">SM</div>
+           <div class="visible-md d-none d-md-block d-lg-none">MD</div>
+           <div class="visible-lg d-none d-lg-block d-xl-none">LG</div>
+           <div class="visible-xl d-none d-xl-block d-xxl-none">XL</div>
+           <div class="visible-xxl d-none d-xl-block">XXL</div>
         </div>
     `);
     $('body').append($sHelper);
