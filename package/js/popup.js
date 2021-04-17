@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     $('#btn-duplicate').click(function(){
         duplicateWindowsInSizes();
-        closeDelay();
+        //closeDelay();
     });
     $('#btn-reload-duplicates').click(function(){
         reloadTabsFromActive();
@@ -49,6 +49,7 @@ function duplicateWindowsInSizes () {
     // Get the current window
     chrome.windows.getCurrent({populate:true}, function(window){
         console.log(window);
+        const version = getVersion();
 
         // Get the active tab
         let activeTab = null;
@@ -65,7 +66,7 @@ function duplicateWindowsInSizes () {
             const url = activeTab.url;
 
             // Get the current breakpoint
-            currentBP = getWindowBreakpoint(window);
+            currentBP = getWindowBreakpoint(version, window);
             // Save the current window
             saveCreatedWindow(window, currentBP);
             // Will reload cause we have the tab
@@ -76,8 +77,8 @@ function duplicateWindowsInSizes () {
             // For each breakpoint, if is not the current
             // Create a new window to display new tab
 
-            for (let j=bootstrapBreakpointsNames.length-1; j>=0; j--) {
-                duplicateFor(bootstrapBreakpointsNames[j], url);
+            for (let j=bootstrapBreakpointsNames[version].length-1; j>=0; j--) {
+                duplicateFor(bootstrapBreakpointsNames[version][j], url);
             }
 
             // Save in local storage the url
@@ -97,7 +98,7 @@ function duplicateFor (breakpointType, url) {
             // Get the window
             chrome.windows.get( lastWindowsCreated[breakpointType], { populate: true }, function (getWindow) {
                 // Check if exist yet and the width
-                if (getWindow != null && getWindowBreakpoint(getWindow) === breakpointType) {
+                if (getWindow != null && getWindowBreakpoint(getVersion(), getWindow) === breakpointType) {
                     checkTabOrCreate(url, getWindow);
                 } else {
                     // Create new one
@@ -177,7 +178,7 @@ function updateBadge() {
         //var width = queryInfo[0].width;
         //console.log(queryInfo);
 
-        const bp = getWindowBreakpoint(window);
+        const bp = getWindowBreakpoint(getVersion(), window);
 
         if (bp !== undefined) {
             badgeText = " "+ bp + " ";

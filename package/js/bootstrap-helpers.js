@@ -1,4 +1,8 @@
-const bootstrapBreakpointsNames = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
+const bootstrapBreakpointsNames = {
+    3: ['xs', 'sm', 'md', 'lg'],
+    4: ['xs', 'sm', 'md', 'lg', 'xl'],
+    5: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+};
 
 /**
  * Check if given name is well a bootstrap breakpoint name
@@ -6,7 +10,7 @@ const bootstrapBreakpointsNames = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'];
  * @returns {boolean}
  */
 function isValidBreakpoint (name) {
-    return (bootstrapBreakpointsNames.indexOf(name) >= 0);
+    return (bootstrapBreakpointsNames[getVersion()].indexOf(name) >= 0);
 }
 
 const breakpointBadgeColors = {
@@ -122,8 +126,8 @@ function getScrollBarWidth () {
 function getBreakpoint(version, width) {
     let bp = undefined;
 
-    for (let i=0; i<bootstrapBreakpointsNames.length; i++) {
-        const bpn = bootstrapBreakpointsNames[i];
+    for (let i=0; i<bootstrapBreakpointsNames[version].length; i++) {
+        const bpn = bootstrapBreakpointsNames[version][i];
         if (width - getScrollBarWidth() >= breakpoints[version][bpn]) {
             bp = bpn;
         }
@@ -151,13 +155,14 @@ function getWindowBreakpoint(version, window) {
  * Init the local storage data
  */
 function initLWCLocalStorage () {
+    const version = getVersion() || 3;
     let lwc = {};
     if (localStorage.getItem('bootstrapHelper_lwc') != null) {
         lwc = getLWCFromLocalStorage();
     }
-    for (let i=0; i<bootstrapBreakpointsNames.length; i++) {
-        if (lwc[bootstrapBreakpointsNames[i]] === undefined) {
-            lwc[bootstrapBreakpointsNames[i]] = null;
+    for (let i=0; i<bootstrapBreakpointsNames[version].length; i++) {
+        if (lwc[bootstrapBreakpointsNames[version][i]] === undefined) {
+            lwc[bootstrapBreakpointsNames[version][i]] = null;
         }
     }
     storeLWCInLocalStorage(lwc);
@@ -209,10 +214,11 @@ function saveCreatedWindow (window, breakpointMode) {
  * @param windowId
  */
 function removeWindow (windowId) {
+    const version = getVersion() || 3;
     const lwc = getLWCFromLocalStorage();
-    for (let i=0; i<bootstrapBreakpointsNames.length; i++) {
-        if (lwc[bootstrapBreakpointsNames[i]] === windowId) {
-            lwc[bootstrapBreakpointsNames[i]] = null;
+    for (let i=0; i<bootstrapBreakpointsNames[version].length; i++) {
+        if (lwc[bootstrapBreakpointsNames[version][i]] === windowId) {
+            lwc[bootstrapBreakpointsNames[version][i]] = null;
         }
     }
     storeLWCInLocalStorage(lwc);
