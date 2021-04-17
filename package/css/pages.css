@@ -33,6 +33,28 @@ section.container {
     margin-bottom: 10px;
 }
 
+.badge {
+    text-transform: uppercase;
+}
+.badge.xs {
+    background-color: #6B15A1;
+}
+.badge.sm {
+    background-color: #801CA1;
+}
+.badge.md {
+    background-color: #9623A1;
+}
+.badge.lg {
+    background-color: #AC2AA1;
+}
+.badge.xl {
+    background-color: #C231A1;
+}
+.badge.xxl {
+    background-color: #D838A1;
+}
+
 footer { padding: 20px; }
 section {
     text-align: center;
