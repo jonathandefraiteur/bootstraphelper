@@ -51,11 +51,44 @@ const breakpoints = {
  * @type {{xs: number, sm: number, md: number, lg: number}}
  */
 const resizeWidth = {
-    xs: 536,
-    sm: 776,
-    md: 1000,
-    lg: 1208
+    3: {
+        xs: 536,
+        sm: 776,
+        md: 1000,
+        lg: 1208
+    },
+    4: {
+        xs: 500,
+        sm: 584,
+        md: 776,
+        lg: 1000,
+        xl: 1208
+    },
+    5: {
+        xs: 500,
+        sm: 584,
+        md: 776,
+        lg: 1000,
+        xl: 1208,
+        xxl: 1408
+    }
 };
+
+/**
+ * Get the bootstrap version from the local storage
+ * @returns {string|null}
+ */
+function getVersion () {
+    const version = localStorage.getItem('bootstrapHelper_bsv');
+    return version ?? null;
+}
+
+/**
+ * Set the bootstrap version to the local storage
+ */
+function setVersion (version = null) {
+    localStorage.setItem('bootstrapHelper_bsv', version);
+}
 
 /**
  * Init the scroll-bar width in the local storage
@@ -241,7 +274,6 @@ function isUrlDuplicate (url) {
  * @param {number?} tabId
  */
 function changeIconTo(version, breakpoint, tabId) {
-    console.log('changeIconTo()', version, breakpoint, tabId);
     let path = 'icons/icon-19.png';
     if (version) {
         path = `icons/icon-19-v${version}.png`;

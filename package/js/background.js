@@ -18,6 +18,7 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 
     if (message.action != null) {
         if (message.action === 'updateBreakpoint') {
+            setVersion(message.params.version);
             changeIconTo(message.params.version, message.params.breakpoint, sender.tab.id);
         }
     }

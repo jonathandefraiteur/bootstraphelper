@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     $('.resizer a').click(function(){
         const breakpoint = $(this).attr('data-size');
-        changeWindowSize(resizeWidth[breakpoint]);
+        changeWindowSize(resizeWidth[getVersion()][breakpoint]);
         closeDelay();
     });
     $('#btn-duplicate').click(function(){
@@ -114,7 +114,7 @@ function duplicateFor (breakpointType, url) {
 function createSizedWindowsTo (url, breakpointMode) {
     chrome.windows.create({
         url: url,
-        width: resizeWidth[breakpointMode]+getScrollBarWidth(),
+        width: resizeWidth[getVersion()][breakpointMode]+getScrollBarWidth(),
         focused: true
     }, function(newWindow) {
         // Save the new window
@@ -195,22 +195,35 @@ function updateButton() {
         var width = window.width;
         console.log(window);
 
+        const version = getVersion();
+        $('#version-container')
+            .removeClass()
+            .addClass('v' + version);
+
         $('.resizer a').removeClass('active');
 
-        if (width - getScrollBarWidth() >= breakpoints[3].lg) {
-            $('.resizer a[data-size="lg"]').addClass('active');
+        if (breakpoints[version].xxl && width - getScrollBarWidth() >= breakpoints[version].xxl) {
+            $('.resizer a[data-size="xxl"]').addClass('active');
             // TODO If Bootstrap is used by current website
+            //changeIconTo('xxl', 'current');
+        }
+        else if (breakpoints[version].xl && width - getScrollBarWidth() >= breakpoints[version].xl) {
+            $('.resizer a[data-size="xl"]').addClass('active');
+            //changeIconTo('xl', 'current');
+        }
+        else if (breakpoints[version].lg && width - getScrollBarWidth() >= breakpoints[version].lg) {
+            $('.resizer a[data-size="lg"]').addClass('active');
             //changeIconTo('lg', 'current');
         }
-        else if (width - getScrollBarWidth() >= breakpoints[3].md) {
+        else if (breakpoints[version].md && width - getScrollBarWidth() >= breakpoints[version].md) {
             $('.resizer a[data-size="md"]').addClass('active');
             //changeIconTo('md', 'current');
         }
-        else if (width - getScrollBarWidth() >= breakpoints[3].sm) {
+        else if (breakpoints[version].sm && width - getScrollBarWidth() >= breakpoints[version].sm) {
             $('.resizer a[data-size="sm"]').addClass('active');
             //changeIconTo('sm', 'current');
         }
-        else if (width - getScrollBarWidth() > breakpoints[3].xs) {
+        else if (breakpoints[version].xs !== undefined && width - getScrollBarWidth() > breakpoints[version].xs) {
             $('.resizer a[data-size="xs"]').addClass('active');
             //changeIconTo('xs', 'current');
         }
