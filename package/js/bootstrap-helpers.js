@@ -1,4 +1,8 @@
-var bootstrapBreakpointsNames = ['xs','sm','md','lg'];
+const bootstrapBreakpointsNames = {
+    3: ['xs', 'sm', 'md', 'lg'],
+    4: ['xs', 'sm', 'md', 'lg', 'xl'],
+    5: ['xs', 'sm', 'md', 'lg', 'xl', 'xxl']
+};
 
 /**
  * Check if given name is well a bootstrap breakpoint name
@@ -6,48 +10,98 @@ var bootstrapBreakpointsNames = ['xs','sm','md','lg'];
  * @returns {boolean}
  */
 function isValidBreakpoint (name) {
-    return (bootstrapBreakpointsNames.indexOf(name) >= 0);
+    return (bootstrapBreakpointsNames[getVersion()].indexOf(name) >= 0);
 }
 
-/**
- * Breakpoints used by Bootstrap
- * @type {{xs: number, sm: number, md: number, lg: number}}
- */
-var breakpoints = {
-    xs: 0,
-    sm: 768,
-    md: 992,
-    lg: 1200
+const breakpointBadgeColors = {
+    xs: [107, 21, 161, 255],
+    sm: [128, 28, 161, 255],
+    md: [150, 35, 161, 255],
+    lg: [172, 42, 161, 255],
+    xl: [194, 49, 161, 255],
+    xxl: [216, 56, 161, 255]
 };
 
 /**
- * Breakpoints used by Bootstrap V4
- * @type {{xs: number, sm: number, md: number, lg: number, xl: number}}
+ * Breakpoints used by Bootstrap
+ * @type {{3: {xs: number, sm: number, md: number, lg: number}, 4: {xs: number, sm: number, md: number, lg: number, xl: number}, 5: {xs: number, sm: number, md: number, lg: number, xxl: number}}}
  */
-var breakpointsV4 = {
-    xs: 0,
-    sm: 576,
-    md: 768,
-    lg: 992,
-    xl: 1200
+const breakpoints = {
+    3: {
+        xs: 0,
+        sm: 768,
+        md: 992,
+        lg: 1200
+    },
+    4: {
+        xs: 0,
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1200
+    },
+    5: {
+        xs: 0,
+        sm: 576,
+        md: 768,
+        lg: 992,
+        xl: 1200,
+        xxl: 1400
+    }
 };
 
 /**
  * Size to use for each breakpoint
  * @type {{xs: number, sm: number, md: number, lg: number}}
  */
-var resizeWidth = {
-    xs: 536,
-    sm: 776,
-    md: 1000,
-    lg: 1208
+const resizeWidth = {
+    3: {
+        xs: 536,
+        sm: 776,
+        md: 1000,
+        lg: 1208
+    },
+    4: {
+        xs: 500,
+        sm: 584,
+        md: 776,
+        lg: 1000,
+        xl: 1208
+    },
+    5: {
+        xs: 500,
+        sm: 584,
+        md: 776,
+        lg: 1000,
+        xl: 1208,
+        xxl: 1408
+    }
 };
 
+/**
+ * Get the bootstrap version from the local storage
+ * @returns {string|null}
+ */
+function getVersion () {
+    const version = localStorage.getItem('bootstrapHelper_bsv');
+    return version ?? null;
+}
+
+/**
+ * Set the bootstrap version to the local storage
+ */
+function setVersion (version = null) {
+    localStorage.setItem('bootstrapHelper_bsv', version);
+}
+
+/**
+ * Init the scroll-bar width in the local storage
+ */
 function initScrollBarWidth () {
     chrome.runtime.getPlatformInfo(function(platformInfo){
-        var scrollBarWidth = 0;
+        let scrollBarWidth = 0;
         // If it's Windows
-        if (platformInfo.os == chrome.runtime.PlatformOs.WIN) {
+        if (platformInfo.os === chrome.runtime.PlatformOs.WIN) {
             scrollBarWidth = 11;
         }
         // TODO: here the fix for the linux user
@@ -55,25 +109,40 @@ function initScrollBarWidth () {
     })
 }
 
+/**
+ * Get the scroll-bar width from the local storage
+ * @returns {number}
+ */
 function getScrollBarWidth () {
-    var width = localStorage.getItem('bootstrapHelper_sbw');
+    const width = localStorage.getItem('bootstrapHelper_sbw');
     return (width != null)? parseInt(width) : 0;
 }
 
-function getBreakpoint(width) {
-    var bp = undefined;
+/**
+ * @param {number} version
+ * @param {number} width
+ * @returns {string|undefined}
+ */
+function getBreakpoint(version, width) {
+    let bp = undefined;
 
-    for (var i=0; i<bootstrapBreakpointsNames.length; i++) {
-        var bpn = bootstrapBreakpointsNames[i];
-        if (width - getScrollBarWidth() >= breakpoints[bpn]) {
+    for (let i=0; i<bootstrapBreakpointsNames[version].length; i++) {
+        const bpn = bootstrapBreakpointsNames[version][i];
+        if (width - getScrollBarWidth() >= breakpoints[version][bpn]) {
             bp = bpn;
         }
     }
 
     return bp;
 }
-function getWindowBreakpoint(window) {
-    return getBreakpoint(window.width);
+
+/**
+ * @param {number} version
+ * @param window
+ * @returns {string|undefined}
+ */
+function getWindowBreakpoint(version, window) {
+    return getBreakpoint(version, window.width);
 }
 
 
@@ -86,13 +155,14 @@ function getWindowBreakpoint(window) {
  * Init the local storage data
  */
 function initLWCLocalStorage () {
-    var lwc = {};
+    const version = getVersion() || 3;
+    let lwc = {};
     if (localStorage.getItem('bootstrapHelper_lwc') != null) {
         lwc = getLWCFromLocalStorage();
     }
-    for (var i=0; i<bootstrapBreakpointsNames.length; i++) {
-        if (lwc[bootstrapBreakpointsNames[i]] == undefined) {
-            lwc[bootstrapBreakpointsNames[i]] = null;
+    for (let i=0; i<bootstrapBreakpointsNames[version].length; i++) {
+        if (lwc[bootstrapBreakpointsNames[version][i]] === undefined) {
+            lwc[bootstrapBreakpointsNames[version][i]] = null;
         }
     }
     storeLWCInLocalStorage(lwc);
@@ -120,11 +190,10 @@ function storeLWCInLocalStorage (lastWindowsCreated) {
  * @returns number|{{xs: null|number, sm: null|number, md: null|number, lg: null|number}}
  */
 function getLastWindowsCreated (breakpoint) {
+    const lwc = getLWCFromLocalStorage();
     if (isValidBreakpoint(breakpoint)) {
-        var lwc = getLWCFromLocalStorage();
         return lwc[breakpoint];
     } else {
-        var lwc = getLWCFromLocalStorage();
         return (lwc != null)? lwc : {};
     }
 }
@@ -135,7 +204,7 @@ function getLastWindowsCreated (breakpoint) {
  * @param breakpointMode
  */
 function saveCreatedWindow (window, breakpointMode) {
-    var lwc = getLastWindowsCreated();
+    const lwc = getLastWindowsCreated();
     lwc[breakpointMode] = window.id;
     storeLWCInLocalStorage(lwc);
 }
@@ -145,10 +214,11 @@ function saveCreatedWindow (window, breakpointMode) {
  * @param windowId
  */
 function removeWindow (windowId) {
-    var lwc = getLWCFromLocalStorage();
-    for (var i=0; i<bootstrapBreakpointsNames.length; i++) {
-        if (lwc[bootstrapBreakpointsNames[i]] == windowId) {
-            lwc[bootstrapBreakpointsNames[i]] = null;
+    const version = getVersion() || 3;
+    const lwc = getLWCFromLocalStorage();
+    for (let i=0; i<bootstrapBreakpointsNames[version].length; i++) {
+        if (lwc[bootstrapBreakpointsNames[version][i]] === windowId) {
+            lwc[bootstrapBreakpointsNames[version][i]] = null;
         }
     }
     storeLWCInLocalStorage(lwc);
@@ -167,12 +237,12 @@ function storeUDInLocalStorage (urlDuplicated) {
  * @param url
  */
 function addUrlDuplicate (url) {
-    var ud = [];
+    let ud = [];
     if (localStorage.getItem('bootstrapHelper_ud') != null) {
         ud = getUDFromLocalStorage();
     }
-    for (var i=0; i<ud.length; i++) {
-        if (ud[i] == url) {
+    for (let i=0; i<ud.length; i++) {
+        if (ud[i] === url) {
             return;
         }
     }
@@ -188,8 +258,8 @@ function addUrlDuplicate (url) {
 function isUrlDuplicate (url) {
     if (localStorage.getItem('bootstrapHelper_ud') != null) {
         ud = getUDFromLocalStorage();
-        for (var i=0; i<ud.length; i++) {
-            if (ud[i] == url) {
+        for (let i=0; i<ud.length; i++) {
+            if (ud[i] === url) {
                 return true;
             }
         }
@@ -203,35 +273,61 @@ function isUrlDuplicate (url) {
 ///// ICON /////
 /////      /////
 
-function changeIconTo(breakpoint, tabId) {
-    var path = 'icons/icon-19.png';
-    if (isValidBreakpoint(breakpoint)) {
-        path = 'icons/icon-19-'+ breakpoint +'.png';
+/**
+ *
+ * @param {number?} version
+ * @param {string?} breakpoint
+ * @param {number?} tabId
+ */
+function changeIconTo(version, breakpoint, tabId) {
+    let path = 'icons/icon-19.png';
+    if (version) {
+        path = `icons/icon-19-v${version}.png`;
+    } else {
+        chrome.browserAction.setBadgeText({"text": null});
     }
 
-    if (tabId == undefined) {
+    if (tabId === undefined) {
         chrome.browserAction.setIcon({path:path});
-    } else if (tabId == 'current') {
+        if (isValidBreakpoint(breakpoint)) {
+            chrome.browserAction.setBadgeText({text: ` ${breakpoint.toUpperCase()} `});
+            chrome.browserAction.setBadgeBackgroundColor({color: breakpointBadgeColors[breakpoint]});
+        }
+    } else if (tabId === 'current') {
         // Look for current tab
         // Get the current window
         chrome.windows.getCurrent({populate:true}, function(window){
             // Get the active tab
-            var activeTab = null;
-            for (var i=0; i<window.tabs.length; i++) {
-                if (window.tabs[i].active == true) {
+            let activeTab = null;
+            for (let i=0; i<window.tabs.length; i++) {
+                if (window.tabs[i].active === true) {
                     activeTab = window.tabs[i];
                     break;
                 }
             }
             // If we well get a tab
             if (activeTab != null) {
-                chrome.browserAction.setIcon({path:path, tabId:activeTab.id});
+                // Recall the function with a tab ID
+                changeIconTo(breakpoint, activeTab.id);
             } else {
                 console.log('No tab active found');
             }
         });
     } else {
-        // give tabId
-        chrome.browserAction.setIcon({path:path, tabId:tabId});
+        // Use tabId to update the icon
+        chrome.browserAction.setIcon({
+            path:path,
+            tabId:tabId
+        });
+        if (isValidBreakpoint(breakpoint)) {
+            chrome.browserAction.setBadgeText({
+                text: ` ${breakpoint.toUpperCase()} `,
+                tabId:tabId
+            });
+            chrome.browserAction.setBadgeBackgroundColor({
+                color: breakpointBadgeColors[breakpoint],
+                tabId:tabId
+            });
+        }
     }
 }

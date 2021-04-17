@@ -1,11 +1,13 @@
-// Saves options to chrome.storage.sync.
+/**
+ * Saves options to chrome.storage.sync.
+ */
 function save_options() {
-    var indPos = document.getElementById('indicator-position').value;
+    const indPos = document.getElementById('indicator-position').value;
     chrome.storage.sync.set({
         bootstrapHelperIndicatorPosition: indPos,
     }, function() {
         // Update status to let user know options were saved.
-        var status = document.getElementById('status');
+        const status = document.getElementById('status');
         status.textContent = 'Options saved.';
         setTimeout(function() {
             status.textContent = '';
@@ -13,8 +15,10 @@ function save_options() {
     });
 }
 
-// Restores select box and checkbox state using the preferences
-// stored in chrome.storage.
+/**
+ * Restores select box and checkbox state using the preferences
+ * stored in chrome.storage.
+ */
 function restore_options() {
     alert('ploup');
     // Use default value color = 'red' and likesColor = true.

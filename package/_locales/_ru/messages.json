@@ -1,18 +1,18 @@
 {
   "appName": {
-    "message": "Bootstrap 3 Helper",
+    "message": "Bootstrap Helper",
     "description": "The title of the application, displayed in the web store."
   },
   "appShortName": {
-    "message": "Bootstrap 3 Helper",
+    "message": "Bootstrap Helper",
     "description": "The Concise title of the application."
   },
   "appDesc": {
-    "message": "Help you to know the current Bootstrap 3 breakpoint",
+    "message": "Help you to know the current Bootstrap breakpoint",
     "description":"The description of the application, displayed in the web store."
   },
   "extTitle": {
-    "message": "Resize / Guide",
-    "description":"Display when hover on the extention icon."
+    "message": "Resize / Guide - Bootstrap Helper",
+    "description":"Display when hover on the extension icon."
   }
 }

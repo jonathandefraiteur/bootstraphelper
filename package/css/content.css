@@ -22,16 +22,16 @@
 #bh-simple-helper.active {
     opacity: 1;
 }
-#bh-simple-helper.bh-tl {
+#bh-simple-helper.bh-top-left {
     top: 10px; left: 10px;
 }
-#bh-simple-helper.bh-tr {
+#bh-simple-helper.bh-top-right {
     top: 10px; right: 10px;
 }
-#bh-simple-helper.bh-bl {
+#bh-simple-helper.bh-bottom-left {
     bottom: 10px; left: 10px;
 }
-#bh-simple-helper.bh-br {
+#bh-simple-helper.bh-bottom-right {
     bottom: 10px; right: 10px;
 }
 

@@ -1,36 +1,3 @@
-
-
-function updateBadge() {
-    // chrome.tabs.query({active: true}, function(queryInfo) {
-    chrome.windows.getCurrent(function(window){
-
-        //var width = queryInfo[0].width;
-        //console.log(queryInfo);
-
-        var width = window.width;
-        console.log(window);
-        var badgeText = "?";
-
-        if (width-11 > breakpoints.xs) {
-            badgeText = " xs ";
-        }
-        if (width-11 >= breakpoints.sm) {
-            badgeText = " sm ";
-        }
-        if (width-11 >= breakpoints.md) {
-            badgeText = " md ";
-        }
-        if (width-11 >= breakpoints.lg) {
-            badgeText = " lg ";
-        }
-
-        chrome.browserAction.setBadgeText({"text": badgeText});
-        chrome.browserAction.setBadgeBackgroundColor({"color":[111, 84, 153, 255]});
-    });
-
-}
-
-
 chrome.runtime.onStartup.addListener(function(activeInfo) {
     initLWCLocalStorage();
     initScrollBarWidth();
@@ -38,28 +5,37 @@ chrome.runtime.onStartup.addListener(function(activeInfo) {
 
 chrome.runtime.onInstalled.addListener(function(details) {
     
-    if (details.reason == "install") {
+    if (details.reason === "install") {
         // Open thank's page
         chrome.tabs.create({url: "/thanks.html", active: true});
-    } else if (details.reason == "update") {
+    } else if (details.reason === "update") {
         // TODO Display "new", and link to updates...
         console.log("Updated", details);
     }
 });
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
     console.log(message, sender);
+
+    if (message.action != null) {
+        if (message.action === 'updateBreakpoint') {
+            setVersion(message.params.version);
+            changeIconTo(message.params.version, message.params.breakpoint, sender.tab.id);
+        }
+    }
+
+    sendResponse('received');
 });
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     console.log(request, sender);
 
     if (request.action != null) {
-        if (request.action == 'isBootstraped') {
+        if (request.action === 'isBootstraped') {
             changeIconTo(
                 (request.message)? getBreakpoint(sender.tab.width) : null,
                 sender.tab.id
             );
         }
-        else if (request.action == 'changeIcon') {
+        else if (request.action === 'changeIcon') {
             changeIconTo(request.message, sender.tab.id);
         }
     }
@@ -78,8 +54,8 @@ chrome.windows.onRemoved.addListener(function (windowId) {
 });
 
 // CONTEXT MENU //
-var contextPageActionId = [];
-// Documentation
+let contextPageActionId = [];
+// Documentation TODO: Add v4 Documentation
 contextPageActionId['doc'] = chrome.contextMenus.create({
     "title": "Doc · CSS",
     "contexts":["browser_action"],

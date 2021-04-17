@@ -1,33 +1,19 @@
-var currentBP = null;
+let currentBP = null;
 
-var closeTimeout = null;
-var delayToClose = 2000;
+let closeTimeout = null;
+const delayToClose = 2000;
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM Content Loaded...');
-
-    //updateBadge();
     updateButton();
 
-    $('.resizer a[data-size="xs"]').click(function(){
-        changeWindowSize(resizeWidth.xs);
-        closeDelay();
-    });
-    $('.resizer a[data-size="sm"]').click(function(){
-        changeWindowSize(resizeWidth.sm);
-        closeDelay();
-    });
-    $('.resizer a[data-size="md"]').click(function(){
-        changeWindowSize(resizeWidth.md);
-        closeDelay();
-    });
-    $('.resizer a[data-size="lg"]').click(function(){
-        changeWindowSize(resizeWidth.lg);
+    $('.resizer a').click(function(){
+        const breakpoint = $(this).attr('data-size');
+        changeWindowSize(resizeWidth[getVersion()][breakpoint]);
         closeDelay();
     });
     $('#btn-duplicate').click(function(){
         duplicateWindowsInSizes();
-        closeDelay();
+        //closeDelay();
     });
     $('#btn-reload-duplicates').click(function(){
         reloadTabsFromActive();
@@ -63,11 +49,12 @@ function duplicateWindowsInSizes () {
     // Get the current window
     chrome.windows.getCurrent({populate:true}, function(window){
         console.log(window);
+        const version = getVersion();
 
         // Get the active tab
-        var activeTab = null;
-        for (var i=0; i<window.tabs.length; i++) {
-            if (window.tabs[i].active == true) {
+        let activeTab = null;
+        for (let i=0; i<window.tabs.length; i++) {
+            if (window.tabs[i].active === true) {
                 activeTab = window.tabs[i];
                 break;
             }
@@ -76,10 +63,10 @@ function duplicateWindowsInSizes () {
         if (activeTab != null) {
             console.log(activeTab);
             // Get url to duplicate
-            var url = activeTab.url;
+            const url = activeTab.url;
 
             // Get the current breakpoint
-            currentBP = getWindowBreakpoint(window);
+            currentBP = getWindowBreakpoint(version, window);
             // Save the current window
             saveCreatedWindow(window, currentBP);
             // Will reload cause we have the tab
@@ -90,8 +77,8 @@ function duplicateWindowsInSizes () {
             // For each breakpoint, if is not the current
             // Create a new window to display new tab
 
-            for (var j=bootstrapBreakpointsNames.length-1; j>=0; j--) {
-                duplicateFor(bootstrapBreakpointsNames[j], url);
+            for (let j=bootstrapBreakpointsNames[version].length-1; j>=0; j--) {
+                duplicateFor(bootstrapBreakpointsNames[version][j], url);
             }
 
             // Save in local storage the url
@@ -103,15 +90,15 @@ function duplicateWindowsInSizes () {
 }
 
 function duplicateFor (breakpointType, url) {
-    var lastWindowsCreated = getLastWindowsCreated();
+    const lastWindowsCreated = getLastWindowsCreated();
 
-    if (currentBP != breakpointType) {
+    if (currentBP !== breakpointType) {
         // If we have create windows before and it at a good size
         if (lastWindowsCreated[breakpointType] != null) {
             // Get the window
             chrome.windows.get( lastWindowsCreated[breakpointType], { populate: true }, function (getWindow) {
                 // Check if exist yet and the width
-                if (getWindow != null && getWindowBreakpoint(getWindow) == breakpointType) {
+                if (getWindow != null && getWindowBreakpoint(getVersion(), getWindow) === breakpointType) {
                     checkTabOrCreate(url, getWindow);
                 } else {
                     // Create new one
@@ -128,7 +115,7 @@ function duplicateFor (breakpointType, url) {
 function createSizedWindowsTo (url, breakpointMode) {
     chrome.windows.create({
         url: url,
-        width: resizeWidth[breakpointMode]+getScrollBarWidth(),
+        width: resizeWidth[getVersion()][breakpointMode]+getScrollBarWidth(),
         focused: true
     }, function(newWindow) {
         // Save the new window
@@ -149,10 +136,10 @@ function closeDuplicata() {
 
 function checkTabOrCreate (url, window) {
     // Check if the url is not open
-    var open = false;
-    for (var j=0; j < window.tabs.length; j++) {
+    let open = false;
+    for (let j=0; j < window.tabs.length; j++) {
         // If already exist
-        if (window.tabs[j].url == url) {
+        if (window.tabs[j].url === url) {
             open = true;
             // Reload
             chrome.tabs.reload(window.tabs[j].id);
@@ -191,9 +178,9 @@ function updateBadge() {
         //var width = queryInfo[0].width;
         //console.log(queryInfo);
 
-        var bp = getWindowBreakpoint(window);
+        const bp = getWindowBreakpoint(getVersion(), window);
 
-        if (bp != undefined) {
+        if (bp !== undefined) {
             badgeText = " "+ bp + " ";
         } else {
             badgeText = "?";
@@ -209,22 +196,35 @@ function updateButton() {
         var width = window.width;
         console.log(window);
 
+        const version = getVersion();
+        $('#version-container')
+            .removeClass()
+            .addClass('v' + version);
+
         $('.resizer a').removeClass('active');
 
-        if (width - getScrollBarWidth() >= breakpoints.lg) {
-            $('.resizer a[data-size="lg"]').addClass('active');
+        if (breakpoints[version].xxl && width - getScrollBarWidth() >= breakpoints[version].xxl) {
+            $('.resizer a[data-size="xxl"]').addClass('active');
             // TODO If Bootstrap is used by current website
+            //changeIconTo('xxl', 'current');
+        }
+        else if (breakpoints[version].xl && width - getScrollBarWidth() >= breakpoints[version].xl) {
+            $('.resizer a[data-size="xl"]').addClass('active');
+            //changeIconTo('xl', 'current');
+        }
+        else if (breakpoints[version].lg && width - getScrollBarWidth() >= breakpoints[version].lg) {
+            $('.resizer a[data-size="lg"]').addClass('active');
             //changeIconTo('lg', 'current');
         }
-        else if (width - getScrollBarWidth() >= breakpoints.md) {
+        else if (breakpoints[version].md && width - getScrollBarWidth() >= breakpoints[version].md) {
             $('.resizer a[data-size="md"]').addClass('active');
             //changeIconTo('md', 'current');
         }
-        else if (width - getScrollBarWidth() >= breakpoints.sm) {
+        else if (breakpoints[version].sm && width - getScrollBarWidth() >= breakpoints[version].sm) {
             $('.resizer a[data-size="sm"]').addClass('active');
             //changeIconTo('sm', 'current');
         }
-        else if (width - getScrollBarWidth() > breakpoints.xs) {
+        else if (breakpoints[version].xs !== undefined && width - getScrollBarWidth() > breakpoints[version].xs) {
             $('.resizer a[data-size="xs"]').addClass('active');
             //changeIconTo('xs', 'current');
         }

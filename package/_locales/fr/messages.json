@@ -1,14 +1,14 @@
 {
   "appName": {
-    "message": "Assistant Bootstrap 3 (Redimention,Duplique...)"
+    "message": "Assistant Bootstrap (Redimention,Duplique...)"
   },
   "appShortName": {
-    "message": "Assistant Bootstrap 3"
+    "message": "Assistant Bootstrap"
   },
   "appDesc": {
-    "message": "Indique le breakpoint Bootstrap 3 actuel. Duplique l'onglet dans chaque taille et recharge tout en un click. Liens vers la doc."
+    "message": "Indique le breakpoint Bootstrap actuel. Duplique l'onglet dans chaque taille et recharge tout en un click. Liens vers la doc."
   },
   "extTitle": {
-    "message": "Redimentionner / Guide"
+    "message": "Redimentionner / Guide - Assistant Bootstrap"
   }
 }
