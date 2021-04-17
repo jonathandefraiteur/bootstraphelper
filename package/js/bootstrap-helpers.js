@@ -14,8 +14,8 @@ const breakpointBadgeColors = {
     sm: [128, 28, 161, 255],
     md: [150, 35, 161, 255],
     lg: [172, 42, 161, 255],
-    xl: [172, 42, 161, 255],
-    xxl: [172, 42, 161, 255]
+    xl: [194, 49, 161, 255],
+    xxl: [216, 56, 161, 255]
 };
 
 /**
@@ -241,6 +241,7 @@ function isUrlDuplicate (url) {
  * @param {number?} tabId
  */
 function changeIconTo(version, breakpoint, tabId) {
+    console.log('changeIconTo()', version, breakpoint, tabId);
     let path = 'icons/icon-19.png';
     if (version) {
         path = `icons/icon-19-v${version}.png`;
