@@ -51,10 +51,22 @@ function checkBootstrapVersion() {
     // Version 4.x
     if ($(`
             [class*="col-xl-"],
+            [class*="container-sm"], [class*="container-md"], [class*="container-lg"], [class*="container-xl"], 
             [class*="offset-xs-"], [class*="offset-sm-"], [class*="offset-md-"], [class*="offset-lg-"], [class*="offset-xl-"],
             [class*="form-control-sm"], [class*="form-control-lg"]
         `).length > 0) {
         version = 4;
+    }
+    // Version 5.x
+    if ($(`
+            [class*="col-xxl-"],
+            [class*="offset-xxl-"],
+            [class*="container-xxl"],
+            [class*="g-xs-"], [class*="g-sm-"], [class*="g-md-"], [class*="g-lg-"], [class*="g-xl-"], [class*="g-xxl-"],
+            [class*="gx-xs-"], [class*="gx-sm-"], [class*="gx-md-"], [class*="gx-lg-"], [class*="gx-xl-"], [class*="gx-xxl-"],
+            [class*="gy-xs-"], [class*="gy-sm-"], [class*="gy-md-"], [class*="gy-lg-"], [class*="gy-xl-"], [class*="gy-xxl-"]
+        `).length > 0) {
+        version = 5;
     }
 
     return version;
